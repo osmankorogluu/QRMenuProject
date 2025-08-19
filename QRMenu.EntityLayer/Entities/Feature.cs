@@ -1,4 +1,4 @@
-﻿namespace QRMenuAPI.DAL.Entities
+﻿namespace QRMenu.EntityLayer.Entities
 {
     public class Feature
     {

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenuAPI", "QRMenuAPI\QRMe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenuWebUI", "QRMenuWebUI\QRMenuWebUI.csproj", "{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenu.EntityLayer", "QRMenu.EntityLayer\QRMenu.EntityLayer.csproj", "{A245F986-39A2-4547-B385-0435D781F7D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A245F986-39A2-4547-B385-0435D781F7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A245F986-39A2-4547-B385-0435D781F7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A245F986-39A2-4547-B385-0435D781F7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A245F986-39A2-4547-B385-0435D781F7D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
