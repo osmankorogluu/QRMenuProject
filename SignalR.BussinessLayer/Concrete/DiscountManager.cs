@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +11,36 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class DiscountManager : IDiscountService
     {
-        private readonly DiscountManager _discountManager;
+        private readonly IDiscountDal _discountDal;
 
-        public DiscountManager(DiscountManager discountManager)
+        public DiscountManager(IDiscountDal discountDal)
         {
-            _discountManager = discountManager;
+            _discountDal=discountDal;
         }
 
         public void TAdd(Discount entity)
         {
-            _discountManager.TAdd(entity);
+            _discountDal.Add(entity);
         }
 
         public void TDelete(Discount entity)
         {
-            _discountManager.TDelete(entity);
+            _discountDal.Delete(entity);
         }
 
         public Discount TGetByID(int id)
         {
-           return _discountManager.TGetByID(id);
+           return _discountDal.GetByID(id);
         }
 
         public List<Discount> TGetListAll()
         {
-            return _discountManager.TGetListAll();
+            return _discountDal.GetListAll();
         }
 
         public void TUpdate(Discount entity)
         {
-           _discountManager.TUpdate(entity);
+           _discountDal.Update(entity);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SignalR.BussinessLayer.Abstract
 {
-    internal interface IDiscountService: IGenericService<Discount>
+    public interface IDiscountService: IGenericService<Discount>
     {
     }
 }
