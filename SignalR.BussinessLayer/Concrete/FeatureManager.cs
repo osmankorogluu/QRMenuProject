@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +11,36 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class FeatureManager : IFeatureService
     {
-        private readonly FeatureManager _featureManager;
+        private readonly IFeatureDal _featureDal;
 
-        public FeatureManager(FeatureManager featureManager)
+        public FeatureManager(IFeatureDal featureDal)
         {
-            _featureManager = featureManager;
+            _featureDal=featureDal;
         }
 
         public void TAdd(Feature entity)
         {
-            _featureManager.TAdd(entity);
+            _featureDal.Add(entity);
         }
 
         public void TDelete(Feature entity)
         {
-           _featureManager.TDelete(entity);
+            _featureDal.Delete(entity);
         }
 
         public Feature TGetByID(int id)
         {
-            return _featureManager.TGetByID(id);
+            return _featureDal.GetByID(id);
         }
 
         public List<Feature> TGetListAll()
         {
-            return _featureManager.TGetListAll();
+            return _featureDal.GetListAll();
         }
 
         public void TUpdate(Feature entity)
         {
-            _featureManager.TUpdate(entity);
+            _featureDal.Update(entity);
         }
     }
 }
