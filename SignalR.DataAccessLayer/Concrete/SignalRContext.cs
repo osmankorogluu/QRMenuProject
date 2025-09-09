@@ -10,20 +10,7 @@ namespace SignalR.DataAccessLayer.Concrete
 {
     public class SignalRContext : DbContext
     {
-        //public SignalRContext(DbContextOptions<SignalRContext> options)
-        //      : base(options)
-        //{
-        //    // Removed invalid call to options.UseSqlServer
-        //}
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=SignalRDb;Integrated Security=True;");
-        //    }
-        //}
-
+       
         public SignalRContext(DbContextOptions<SignalRContext> options)
         : base(options)
         {

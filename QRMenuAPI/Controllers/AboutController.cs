@@ -16,6 +16,7 @@ namespace QRMenuAPI.Controllers
         {
             _aboutService=aboutService;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAbout()
         {

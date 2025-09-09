@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,37 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class CategoryManager : ICategoryService
     {
-        private readonly CategoryManager _categoryManager;
+        private readonly ICategoryDal _categoryDal;
 
-        public CategoryManager(CategoryManager categoryManager)
+        public CategoryManager(ICategoryDal categoryDal)
         {
-            _categoryManager = categoryManager;
+            _categoryDal=categoryDal;
         }
 
         public void TAdd(Category entity)
         {
-            _categoryManager.TAdd(entity);
+            _categoryDal.Add(entity);
         }
 
         public void TDelete(Category entity)
         {
-            _categoryManager.TDelete(entity);
+            _categoryDal.Delete(entity);
         }
 
         public Category TGetByID(int id)
         {
-            return _categoryManager.TGetByID(id);
+            return _categoryDal.GetByID(id);
             
         }
 
         public List<Category> TGetListAll()
         {
-           return _categoryManager.TGetListAll();
+           return _categoryDal.GetListAll();
         }
 
         public void TUpdate(Category entity)
         {
-            _categoryManager.TUpdate(entity);
+             _categoryDal.Update(entity);
         }
     }
 }
