@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +11,36 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class ProductManager : IProductService
     {
-        private readonly ProductManager _productManager;
+        private readonly IProductDal _productDal;
 
-        public ProductManager(ProductManager productManager)
+        public ProductManager(IProductDal productDal)
         {
-            _productManager = productManager;
+            _productDal=productDal;
         }
 
         public void TAdd(Product entity)
         {
-            _productManager.TAdd(entity);
+            _productDal.Add(entity);
         }
 
         public void TDelete(Product entity)
         {
-            _productManager.TDelete(entity);    
+            _productDal.Delete(entity);    
         }
 
         public Product TGetByID(int id)
         {
-            return _productManager.TGetByID(id);    
+            return _productDal.GetByID(id);    
         }
 
         public List<Product> TGetListAll()
         {
-            return _productManager.TGetListAll();
+            return _productDal.GetListAll();
         }
 
         public void TUpdate(Product entity)
         {
-            _productManager.TUpdate(entity);
+            _productDal.Update(entity);
         }
     }
 }
