@@ -14,14 +14,16 @@ namespace YourProject.API.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly ICategoryService _categoryService; // Fix: Add field for _categoryService
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper, ICategoryService categoryService)
         {
             _productService = productService;
             _mapper = mapper;
+            _categoryService = categoryService; // Fix: Assign parameter to field
         }
 
-     
+
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -41,12 +43,12 @@ namespace YourProject.API.Controllers
                 ProductID = y.ProductID,
                 ProductName = y.ProductName,
                 ProductStatus = y.ProductStatus,
-                CategoryName = y.Category.Name 
+                CategoryName = y.Category.Name
             });
             return Ok(values.ToList());
         }
 
-        
+
         [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
@@ -56,24 +58,21 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-       
+
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDto createProductDto)
         {
-            var product = new Product
-            {
-                ProductName = createProductDto.ProductName,
-                Description = createProductDto.Description,
-                Price = createProductDto.Price,
-                ImageUrl = createProductDto.ImageUrl,
-                ProductStatus = createProductDto.ProductStatus
-            };
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
-            _productService.TAdd(product);
-            return Ok("Ürün başarıyla oluşturuldu.");
+            var cat = _categoryService.TGetByID(createProductDto.CategoryId);
+            if (cat == null) return BadRequest($"Category #{createProductDto.CategoryId} bulunamadı.");
+
+            var entity = _mapper.Map<Product>(createProductDto);
+            _productService.TAdd(entity);
+            return Ok("Product created.");
         }
 
-     
+
         [HttpPut]
         public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
         {
@@ -91,7 +90,7 @@ namespace YourProject.API.Controllers
             return Ok("Ürün başarıyla güncellendi.");
         }
 
-        
+
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
