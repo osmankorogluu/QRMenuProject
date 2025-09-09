@@ -13,6 +13,7 @@ namespace QRMenuAPI.Mapping
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, GetFeatureDto>().ReverseMap();
             CreateMap<Product, UpdateFeatureDto>().ReverseMap();
+            CreateMap<Product, ResultProductWithCategoryDto>().ReverseMap();
         }
     }
 }

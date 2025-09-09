@@ -10,7 +10,10 @@ namespace SignalR.DataAccessLayer.Concrete
 {
     public class SignalRContext : DbContext
     {
-       
+        public SignalRContext()
+        {
+        }
+
         public SignalRContext(DbContextOptions<SignalRContext> options)
         : base(options)
         {

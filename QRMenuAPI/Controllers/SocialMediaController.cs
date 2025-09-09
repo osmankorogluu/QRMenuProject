@@ -16,7 +16,7 @@ namespace YourProject.API.Controllers
             _socialMediaService = socialMediaService;
         }
 
-        // Tüm sosyal medyaları getir
+       
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -24,7 +24,7 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        // ID’ye göre getir
+        
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -35,7 +35,7 @@ namespace YourProject.API.Controllers
             return Ok(value);
         }
 
-        // Yeni sosyal medya ekle
+      
         [HttpPost]
         public IActionResult Create(CreateSocialMediaDto dto)
         {
@@ -50,7 +50,7 @@ namespace YourProject.API.Controllers
             return Ok("Sosyal medya başarıyla eklendi.");
         }
 
-        // Güncelle
+     
         [HttpPut]
         public IActionResult Update(UpdateSocailMediaDto dto)
         {
@@ -66,7 +66,7 @@ namespace YourProject.API.Controllers
             return Ok("Sosyal medya başarıyla güncellendi.");
         }
 
-        // Sil
+   
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

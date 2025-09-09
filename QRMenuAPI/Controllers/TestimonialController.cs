@@ -16,7 +16,7 @@ namespace YourProject.API.Controllers
             _testimonialService = testimonialService;
         }
 
-        // Tüm referansları getir
+       
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -24,7 +24,7 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        // ID’ye göre getir
+       
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -35,7 +35,7 @@ namespace YourProject.API.Controllers
             return Ok(value);
         }
 
-        // Yeni referans ekle
+      
         [HttpPost]
         public IActionResult Create(CreateTestimonialDto dto)
         {
@@ -52,7 +52,7 @@ namespace YourProject.API.Controllers
             return Ok("Referans başarıyla eklendi.");
         }
 
-        // Güncelle
+        
         [HttpPut]
         public IActionResult Update(UpdateTestimonialDto dto)
         {
@@ -70,7 +70,7 @@ namespace YourProject.API.Controllers
             return Ok("Referans başarıyla güncellendi.");
         }
 
-        // Sil
+        
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
