@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +11,36 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class ContactManager : IContactService
     {
-        private readonly ContactManager _contactManager;
+        private readonly IContactDal _contactDal;
 
-        public ContactManager(ContactManager contactManager)
+        public ContactManager(IContactDal contactDal)
         {
-            _contactManager = contactManager;
+            _contactDal=contactDal;
         }
 
         public void TAdd(Contact entity)
         {
-            _contactManager.TAdd(entity);
+            _contactDal.Add(entity);
         }
 
         public void TDelete(Contact entity)
         {
-            _contactManager.TDelete(entity);
+            _contactDal.Delete(entity);
         }
 
         public Contact TGetByID(int id)
         {
-          return _contactManager.TGetByID(id);
+          return _contactDal.GetByID(id);
         }
 
         public List<Contact> TGetListAll()
         {
-            return _contactManager.TGetListAll();
+            return _contactDal.GetListAll();
         }
 
         public void TUpdate(Contact entity)
         {
-           _contactManager.TUpdate(entity);
+           _contactDal.Update(entity);
         }
     }
 }

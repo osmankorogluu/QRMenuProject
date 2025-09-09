@@ -12,7 +12,7 @@ namespace QRMenuAPI.Mapping
             CreateMap<Contact, ResultContactDto>().ReverseMap();
             CreateMap<Contact, CreateContactDto>().ReverseMap();
             CreateMap<Contact, GetContactDto>().ReverseMap();
-            CreateMap<Contact, UpdateResultDto>().ReverseMap();
+            CreateMap<Contact, UpdateContactDto>().ReverseMap();
         }
     }
 }
