@@ -43,13 +43,20 @@ namespace QRMenuAPI.Controllers
             _aboutService.TDelete(result);
             return Ok("Hakkımda Alanı Silindi.");
         }
-        //[HttpPut]
-        //public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
-        //{
+        [HttpPut]
+        public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
+        {
+            var about = new About
+            {
+                AboutID = updateAboutDto.AboutID,
+                ImageUrl = updateAboutDto.ImageUrl,
+                title = updateAboutDto.title,
+                Description = updateAboutDto.Description
+            };
 
-        //    _aboutService.TUpdate(updateAboutDto);
-        //    return Ok("Hakkımda Alanı Başarılı Bir Şekilde Güncellendi.");
-        //}
+            _aboutService.TUpdate(about);
+            return Ok("Hakkımda Alanı Başarılı Bir Şekilde Güncellendi.");
+        }
 
         [HttpGet("GetAbout")]
         public IActionResult GetAbout(int id)
