@@ -12,7 +12,7 @@ namespace SignalR.BussinessLayer.Concrete
     public class TestimonialManager : ITestoimonialService
     {
         private readonly ITestimonialDal _testimonialDal;
-public TestimonialManager(ITestimonialDal testimonialDal)
+         public TestimonialManager(ITestimonialDal testimonialDal)
         {
             _testimonialDal = testimonialDal;
         }

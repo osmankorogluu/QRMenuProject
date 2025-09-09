@@ -1,5 +1,6 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
+using SignalR.DataAccessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,37 @@ namespace SignalR.BussinessLayer.Concrete
 {
     public class SocialMediaManager : ISocialMediaService
     {
-        private SocialMediaManager _socialMediaManager;
+        private ISocialMediaDal _socialMediaDal;
 
-        public SocialMediaManager(SocialMediaManager socialMediaManager)
+        public SocialMediaManager(ISocialMediaDal socialMediaDal)
         {
-            _socialMediaManager = socialMediaManager;
+            _socialMediaDal=socialMediaDal;
         }
 
         public void TAdd(SocialMedia entity)
         {
-            _socialMediaManager.TAdd(entity);
+            _socialMediaDal.Add(entity);
         }
         
 
         public void TDelete(SocialMedia entity)
         {
-           _socialMediaManager.TDelete(entity);
+            _socialMediaDal.Delete(entity);
         }
 
         public SocialMedia TGetByID(int id)
         {
-            return _socialMediaManager.TGetByID(id);
+            return _socialMediaDal.GetByID(id);
         }
 
         public List<SocialMedia> TGetListAll()
         {
-            return _socialMediaManager.TGetListAll();
+            return _socialMediaDal.GetListAll();
         }
 
         public void TUpdate(SocialMedia entity)
         {
-            _socialMediaManager.TUpdate(entity);
+            _socialMediaDal.Update(entity);
         }
     }
 }
