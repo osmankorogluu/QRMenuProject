@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenuAPI", "QRMenuAPI\QRMenuAPI.csproj", "{990A8136-0C9A-4CAB-8D22-793560F7C247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenuWebUI", "QRMenuWebUI\QRMenuWebUI.csproj", "{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenu.EntityLayer", "QRMenu.EntityLayer\QRMenu.EntityLayer.csproj", "{A245F986-39A2-4547-B385-0435D781F7D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.DataAccessLayer", "SignalR.DataAccessLayer\SignalR.DataAccessLayer.csproj", "{2E5BB839-6A8A-4EB6-BF63-EF56F861F504}"
@@ -14,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.DtoLayer", "SignalR.DtoLayer\SignalR.DtoLayer.csproj", "{C784D944-AC09-439B-B549-9415FFA868CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.BussinessLayer", "SignalR.BussinessLayer\SignalR.BussinessLayer.csproj", "{6E7F99E0-B840-44E2-8D9D-2CC9759AF218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRMenuWebUI", "QRMenuWebUI\QRMenuWebUI.csproj", "{EE74826C-6433-4120-8BB4-14D24900CF1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{990A8136-0C9A-4CAB-8D22-793560F7C247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{990A8136-0C9A-4CAB-8D22-793560F7C247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{990A8136-0C9A-4CAB-8D22-793560F7C247}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D63A8B01-332C-4C92-B17B-EC9F59F79A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A245F986-39A2-4547-B385-0435D781F7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A245F986-39A2-4547-B385-0435D781F7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A245F986-39A2-4547-B385-0435D781F7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{6E7F99E0-B840-44E2-8D9D-2CC9759AF218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E7F99E0-B840-44E2-8D9D-2CC9759AF218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E7F99E0-B840-44E2-8D9D-2CC9759AF218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE74826C-6433-4120-8BB4-14D24900CF1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE74826C-6433-4120-8BB4-14D24900CF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE74826C-6433-4120-8BB4-14D24900CF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE74826C-6433-4120-8BB4-14D24900CF1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
