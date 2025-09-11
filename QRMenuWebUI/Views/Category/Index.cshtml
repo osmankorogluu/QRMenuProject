@@ -5,6 +5,7 @@
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -37,8 +38,8 @@
                                             <td>@item.CategoryID</td>
                                             <td>@item.Name</td>
                                             <td>@item.Status</td>
-                                            <td><a href="#" class="btn btn-outline-danger btn-sm">Sil</a></td>
-                                            <td><a href="#" class="btn btn-outline-success btn-sm">Güncelle</a></td>
+                                            <td><a href="/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger btn-sm">Sil</a></td>
+                                            <td><a href="/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success btn-sm">Güncelle</a></td>
                                         </tr>
                                     }
                                 }

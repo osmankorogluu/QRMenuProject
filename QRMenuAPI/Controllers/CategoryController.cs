@@ -37,7 +37,7 @@ namespace QRMenuAPI.Controllers
 
             return Ok("Booking was successfully created.");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)
         {
             var result = _categoryService.TGetByID(id);
@@ -45,20 +45,33 @@ namespace QRMenuAPI.Controllers
             _categoryService.TDelete(result);
             return Ok("Hakkımda Alanı Silindi.");
         }
-        [HttpPut]
-        public IActionResult UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        
+        //public IActionResult UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        //{
+        //    var category = new Category
+        //    {
+        //        Name = updateCategoryDto.Name,
+        //        Status = updateCategoryDto.Status,
+        //    };
+
+        //    _categoryService.TUpdate(category);
+        //    return Ok("Booking was successfully updated.");
+        //}
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory(int id, [FromBody] UpdateCategoryDto dto)
         {
-            var category = new Category
-            {
-                Name = updateCategoryDto.Name,
-                Status = updateCategoryDto.Status,
-            };
+            var category = _categoryService.TGetByID(id);
+            if (category == null) return NotFound();
+
+            category.Name = dto.Name;
+            category.Status = dto.Status;
 
             _categoryService.TUpdate(category);
-            return Ok("Booking was successfully updated.");
+            return Ok("Category updated successfully");
         }
 
-        [HttpGet("GetCategory")]
+
+        [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {
             var result = _categoryService.TGetByID(id);
