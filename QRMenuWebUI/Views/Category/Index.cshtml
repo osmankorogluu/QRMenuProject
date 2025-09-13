@@ -1,59 +1,138 @@
 ﻿@model List<QRMenuWebUI.Dtos.CategoryDtos.ResultCategoryDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kategori Yönetimi";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2d2d2d;
+    }
+
+    .page-wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .card-modern {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .card-header-modern {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-modern th {
+        background-color: #fafafa !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #444;
+    }
+
+    .table-modern td {
+        vertical-align: middle;
+        font-size: 0.9rem;
+    }
+
+    .badge {
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .btn-action {
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+    }
+</style>
 
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8" style="margin-left:0; padding-left:0;">
-                <h4 class="page-title">Tables</h4>
-                <div class="card shadow" style="margin-left:0;">
-                    <div class="card-header">
-                        <div class="card-title">Kategori Listesi</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-sub mb-3">
-                            Kategori ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
-                        </div>
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-light">
+    <div class="page-wrapper">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span><i class="fas fa-layer-group me-2"></i> Kategori Yönetimi</span>
+                <a href="/Category/CreateCategory/" class="btn btn-dark btn-sm fw-bold">
+                    <i class="fas fa-plus-circle me-1"></i> Yeni Kategori
+                </a>
+            </div>
+            <div class="card-body p-4">
+                <table class="table table-modern table-hover text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Kategori Adı</th>
+                            <th>Durum</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Kategori Adı</th>
-                                    <th scope="col">Durum</th>
-                                    <th scope="col">Sil</th>
-                                    <th scope="col">Güncelle</th>
+                                    <td>
+                                        <span class="badge bg-secondary px-3 py-2">
+                                            @item.CategoryID
+                                        </span>
+                                    </td>
+                                    <td class="fw-semibold">@item.Name</td>
+                                    <td>
+                                        @if (item.Status)
+                                        {
+                                            <span class="badge bg-success px-3 py-2">
+                                                Aktif
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger px-3 py-2">
+                                                Pasif
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/Category/DeleteCategory/@item.CategoryID"
+                                           class="btn btn-outline-danger btn-sm btn-action">
+                                            Sil
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/Category/UpdateCategory/@item.CategoryID"
+                                           class="btn btn-outline-success btn-sm btn-action">
+                                            Güncelle
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null && Model.Any())
-                                {
-                                    foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>@item.CategoryID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Status</td>
-                                            <td><a href="/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger btn-sm">Sil</a></td>
-                                            <td><a href="/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success btn-sm">Güncelle</a></td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="5" class="text-center">Kategori bulunamadı.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                        <a href="/Category/CreateCategory/" class="btn btn-primary">Yeni Kategori Ekle</a>
-                    </div>
-                </div>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-muted py-4">
+                                    <i class="fas fa-inbox fa-2x d-block mb-2"></i>
+                                    Hiç kategori bulunamadı.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
