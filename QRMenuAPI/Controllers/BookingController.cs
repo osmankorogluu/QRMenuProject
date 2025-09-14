@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
-using SignalR.DtoLayer.AboutDto;
 using SignalR.DtoLayer.BookingDto;
 
 namespace QRMenuAPI.Controllers
@@ -15,61 +13,86 @@ namespace QRMenuAPI.Controllers
 
         public BookingController(IBookingService bookingService)
         {
-            _bookingService=bookingService;
+            _bookingService = bookingService;
         }
 
+      
         [HttpGet]
-        public async Task<IActionResult> GetBooking()
+        public IActionResult GetBookings()
         {
             var result = _bookingService.TGetListAll();
             return Ok(result);
         }
-        [HttpPost]
-        public IActionResult CreateBooking(CreateBookingDto createBookingDto)
-        {
-            var booking = new Booking
-            {
-                Name = createBookingDto.Name,
-                Phone = createBookingDto.Phone,
-                Mail = createBookingDto.Mail,
-                PersonCount = createBookingDto.PersonCount,
-                Date = createBookingDto.Date
-            };
-            _bookingService.TAdd(booking);
 
-            return Ok("Booking was successfully created.");
-        }
-        [HttpDelete]
-        public IActionResult DeleteBook(int id)
-        {
-            var result = _bookingService.TGetByID(id);
-
-            _bookingService.TDelete(result);
-            return Ok("Hakkımda Alanı Silindi.");
-        }
-        [HttpPut]
-        public IActionResult UpdateBooking(UpdateBookingDto updateBookingDto)
-        {
-            var booking = new Booking
-            {
-                BookingID = updateBookingDto.BookingID,
-                Name = updateBookingDto.Name,
-                Phone = updateBookingDto.Phone,
-                Mail = updateBookingDto.Mail,
-                PersonCount = updateBookingDto.PersonCount,
-                Date = updateBookingDto.Date
-            };
-
-            _bookingService.TUpdate(booking);
-            return Ok("Booking was successfully updated.");
-        }
-
-        [HttpGet("GetAbout")]
+       
+        [HttpGet("{id:int}")]
         public IActionResult GetBooking(int id)
         {
             var result = _bookingService.TGetByID(id);
+            if (result == null)
+                return NotFound("Booking bulunamadı.");
+
             return Ok(result);
+        }
+
+       
+        [HttpPost]
+        public IActionResult CreateBooking([FromBody] CreateBookingDto createBookingDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+           
+            var booking = new Booking
+            {
+                Name        = createBookingDto.Name,
+                Phone       = createBookingDto.Phone,
+                Mail        = createBookingDto.Mail,  
+                PersonCount = createBookingDto.PersonCount,
+                Date        = createBookingDto.Date
+            };
+
+            _bookingService.TAdd(booking);
+
+            return CreatedAtAction(nameof(GetBooking), new { id = booking.BookingID }, booking);
+        }
+
+     
+        [HttpPut("{id:int?}")]
+        public IActionResult UpdateBooking(int? id, [FromBody] UpdateBookingDto updateBookingDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var bookingId = id ?? updateBookingDto.BookingID;
+            if (bookingId <= 0)
+                return BadRequest("BookingID zorunludur.");
+
+            var existing = _bookingService.TGetByID(bookingId);
+            if (existing == null)
+                return NotFound("Güncellenecek booking bulunamadı.");
+
+           
+            existing.Name        = updateBookingDto.Name;
+            existing.Phone       = updateBookingDto.Phone;
+            existing.Mail        = updateBookingDto.Mail;  
+            existing.PersonCount = updateBookingDto.PersonCount;
+            existing.Date        = updateBookingDto.Date;
+
+            _bookingService.TUpdate(existing);
+            return Ok("Booking başarıyla güncellendi.");
+        }
+
+        
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteBooking(int id)
+        {
+            var existing = _bookingService.TGetByID(id);
+            if (existing == null)
+                return NotFound("Silinecek booking bulunamadı.");
+
+            _bookingService.TDelete(existing);
+            return Ok("Booking silindi.");
         }
     }
 }
-
