@@ -36,7 +36,7 @@ namespace QRMenuAPI.Controllers
 
             return Ok("Hakkımda Kısmı Başarılı Bir Şekilde Eklendi.");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteAbout(int id)
         {
             var result = _aboutService.TGetByID(id);
@@ -59,7 +59,7 @@ namespace QRMenuAPI.Controllers
             return Ok("Hakkımda Alanı Başarılı Bir Şekilde Güncellendi.");
         }
 
-        [HttpGet("GetAbout")]
+        [HttpGet("id")]
         public IActionResult GetAbout(int id)
         {
             var result = _aboutService.TGetByID(id);

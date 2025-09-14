@@ -18,6 +18,11 @@ namespace SignalR.BussinessLayer.Concrete
             _productDal=productDal;
         }
 
+        public List<Product> GetProductsWithCategory()
+        {
+            return _productDal.GetProductsWithCategory();
+        }
+
         public void TAdd(Product entity)
         {
             _productDal.Add(entity);

@@ -1,0 +1,126 @@
+﻿@model List<QRMenuWebUI.Dtos.AboutDtos.ResultAboutDto>
+
+@{
+    ViewData["Title"] = "About Yönetimi";
+    Layout = "~/Views/AdminLayoutController1/Index.cshtml";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2d2d2d;
+    }
+
+    .page-wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .card-modern {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .card-header-modern {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-modern th {
+        background-color: #fafafa !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #444;
+    }
+
+    .table-modern td {
+        vertical-align: middle;
+        font-size: 0.9rem;
+    }
+
+    .badge {
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .btn-action {
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="content">
+    <div class="page-wrapper">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span><i class="fas fa-info-circle me-2"></i> Anasayfa Hakkımızda</span>
+                <a href="/About/CreateAbout/" class="btn btn-dark btn-sm fw-bold">
+                    <i class="fas fa-plus-circle me-1"></i> Yeni About
+                </a>
+            </div>
+            <div class="card-body p-4">
+                <table class="table table-modern table-hover text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Başlık</th>
+                            <th>Açıklama</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary px-3 py-2">
+                                            @item.AboutID
+                                        </span>
+                                    </td>
+                                    <td class="fw-semibold">@item.title</td>
+                                    <td>@item.Description</td>
+                                    <td>
+                                        <a href="/About/DeleteAbout/@item.AboutID"
+                                           class="btn btn-outline-danger btn-sm btn-action">
+                                            Sil
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/About/UpdateAbout/@item.AboutID"
+                                           class="btn btn-outline-success btn-sm btn-action">
+                                            Güncelle
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-muted py-4">
+                                    <i class="fas fa-inbox fa-2x d-block mb-2"></i>
+                                    Hiç About kaydı bulunamadı.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using QRMenuWebUI.Dtos.CategoryDtos;
 using QRMenuWebUI.Dtos.ProductDtos;
+using System.Text;
 
 namespace QRMenuWebUI.Controllers
 {
@@ -13,6 +16,7 @@ namespace QRMenuWebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+       
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
@@ -28,12 +32,15 @@ namespace QRMenuWebUI.Controllers
             return View(new List<ResultProductDto>());
         }
 
+ 
         [HttpGet]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
+            await LoadCategories();
             return View();
         }
 
+        
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
         {
@@ -41,7 +48,7 @@ namespace QRMenuWebUI.Controllers
 
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createProductDto);
-            StringContent stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var responseMessage = await client.PostAsync("https://localhost:44366/api/Product", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
@@ -49,9 +56,11 @@ namespace QRMenuWebUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View();
+            await LoadCategories(); 
+            return View(createProductDto);
         }
 
+        
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var client = _httpClientFactory.CreateClient();
@@ -63,26 +72,31 @@ namespace QRMenuWebUI.Controllers
             return View();
         }
 
+       
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
+
+            await LoadCategories();
+
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync($"https://localhost:44366/api/Product/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<UpdateProductDto>(jsonData);
-                return View(values);
+                var value = JsonConvert.DeserializeObject<UpdateProductDto>(jsonData);
+                return View(value);
             }
             return View();
         }
 
+       
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateProductDto);
-            StringContent stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             var responseMessage = await client.PutAsync($"https://localhost:44366/api/Product/{updateProductDto.ProductID}", stringContent);
 
@@ -90,7 +104,26 @@ namespace QRMenuWebUI.Controllers
             {
                 return RedirectToAction("Index");
             }
+
+            await LoadCategories(); 
             return View(updateProductDto);
+        }
+
+       
+        private async Task LoadCategories()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:44366/api/Category");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var categories = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+                ViewBag.v = categories.Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.CategoryID.ToString()
+                }).ToList();
+            }
         }
     }
 }

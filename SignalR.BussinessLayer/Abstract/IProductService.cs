@@ -9,6 +9,6 @@ namespace SignalR.BussinessLayer.Abstract
 {
     public interface IProductService: IGenericService<Product>
     {
-        List<Product> TGetProductsWithCategory();
+        List<Product> GetProductsWithCategory();
     }
 }

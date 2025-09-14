@@ -1,55 +1,42 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
-using SignalR.DataAccessLayer.Concrete;
 using SignalR.DtoLayer.ProductDto;
 
-namespace YourProject.API.Controllers
+namespace QRMenuAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        private readonly ICategoryService _categoryService; // Fix: Add field for _categoryService
 
-        public ProductController(IProductService productService, IMapper mapper, ICategoryService categoryService)
+        public ProductController(IProductService productService, ICategoryService categoryService, IMapper mapper)
         {
             _productService = productService;
+            _categoryService = categoryService;
             _mapper = mapper;
-            _categoryService = categoryService; // Fix: Assign parameter to field
         }
-
 
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var result = _productService.TGetListAll();
-            return Ok(result);
+            var values = _productService.TGetListAll();
+            return Ok(values);
         }
 
         [HttpGet("ProductListWithCategory")]
         public IActionResult ProductListWithCategory()
         {
-            var context = new SignalRContext();
-            var values = context.Products.Include(x => x.Category).Select(y => new ResultProductWithCategoryDto
-            {
-                Description = y.Description,
-                ImageUrl = y.ImageUrl,
-                Price = y.Price,
-                ProductID = y.ProductID,
-                ProductName = y.ProductName,
-                ProductStatus = y.ProductStatus,
-                CategoryName = y.Category.Name
-            });
-            return Ok(values.ToList());
+            var values = _productService.GetProductsWithCategory();
+            var dto = _mapper.Map<List<ResultProductWithCategoryDto>>(values);
+            return Ok(dto);
         }
 
-
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetProduct(int id)
         {
             var result = _productService.TGetByID(id);
@@ -58,40 +45,42 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDto createProductDto)
         {
-            if (!ModelState.IsValid) return ValidationProblem(ModelState);
-
-            var cat = _categoryService.TGetByID(createProductDto.CategoryId);
-            if (cat == null) return BadRequest($"Category #{createProductDto.CategoryId} bulunamadı.");
-
-            var entity = _mapper.Map<Product>(createProductDto);
-            _productService.TAdd(entity);
-            return Ok("Product created.");
+            _productService.TAdd(new Product()
+            {
+                Description   = createProductDto.Description,
+                ImageUrl      = createProductDto.ImageUrl,
+                Price         = createProductDto.Price,
+                ProductName   = createProductDto.ProductName,
+                ProductStatus = createProductDto.ProductStatus,
+                CategoryID    = createProductDto.CategoryID
+            });
+            return Ok("Ürün başarıyla eklendi.");
         }
 
-
-        [HttpPut]
-        public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
+        // 🔴 id parametresi route'ta tanımlandı
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateProduct(int id, UpdateProductDto updateProductDto)
         {
-            var product = _productService.TGetByID(updateProductDto.ProductID);
+            var product = _productService.TGetByID(id);
             if (product == null)
                 return NotFound("Ürün bulunamadı.");
 
-            product.ProductName = updateProductDto.ProductName;
-            product.Description = updateProductDto.Description;
-            product.Price = updateProductDto.Price;
-            product.ImageUrl = updateProductDto.ImageUrl;
+            // ❌ product.ProductID set etmiyoruz
+            product.ProductName   = updateProductDto.ProductName;
+            product.Description   = updateProductDto.Description;
+            product.Price         = updateProductDto.Price;
+            product.ImageUrl      = updateProductDto.ImageUrl;
             product.ProductStatus = updateProductDto.ProductStatus;
+            product.CategoryID    = updateProductDto.CategoryId;
 
             _productService.TUpdate(product);
             return Ok("Ürün başarıyla güncellendi.");
         }
 
-
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public IActionResult DeleteProduct(int id)
         {
             var product = _productService.TGetByID(id);
