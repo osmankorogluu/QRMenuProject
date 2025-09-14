@@ -11,29 +11,35 @@
         <div class="row">
             <div class="col-md-12">
 
-                <form asp-action="CreateAbout" asp-controller="About" method="post">
+                <form asp-action="UpdateAbout" asp-controller="About" method="post">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Yeni About Kaydı</div>
+                            <div class="card-title">About Güncelleme</div>
                         </div>
-						<input type="hidden" asp-for="AboutID"/>
+
+                        <!-- ID Gizli Alan -->
+                        <input type="hidden" asp-for="AboutID" />
+
                         <div class="card-body">
+                            <!-- Title -->
                             <div class="form-group mb-3">
-                                <label for="title">Başlık Giriniz</label>
-                                <input type="text" class="form-control" asp-for="title" id="title" />
-                                <span asp-validation-for="title" class="text-danger"></span>
+                                <label for="Title">Başlık Giriniz</label>
+                                <input type="text" class="form-control" asp-for="Title" id="Title" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
 
+                            <!-- Description -->
                             <div class="form-group mb-3">
-                                <label for="description">Açıklama Giriniz</label>
-                                <textarea class="form-control" asp-for="Description" id="description" rows="4"></textarea>
+                                <label for="Description">Açıklama Giriniz</label>
+                                <textarea class="form-control" asp-for="Description" id="Description" rows="4"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="card-body">
+
+                            <!-- ImageUrl -->
                             <div class="form-group mb-3">
-                                <label for="ımageurl">Görsel Url Giriniz</label>
-                                <textarea class="form-control" asp-for="ImageUrl" id="ImageUrl" rows="2"></textarea>
+                                <label for="ImageUrl">Görsel Url Giriniz</label>
+                                <input type="text" class="form-control" asp-for="ImageUrl" id="ImageUrl" />
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
                             </div>
                         </div>
 

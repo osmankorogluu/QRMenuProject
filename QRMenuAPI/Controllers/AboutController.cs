@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
 using SignalR.DtoLayer.AboutDto;
@@ -14,15 +13,29 @@ namespace QRMenuAPI.Controllers
 
         public AboutController(IAboutService aboutService)
         {
-            _aboutService=aboutService;
+            _aboutService = aboutService;
         }
 
+        // TÜM ABOUT KAYITLARI
         [HttpGet]
-        public async Task<IActionResult> GetAbout()
+        public IActionResult GetAbouts()
         {
             var result = _aboutService.TGetListAll();
             return Ok(result);
         }
+
+        // ID'YE GÖRE ABOUT GETİR
+        [HttpGet("{id}")]
+        public IActionResult GetAbout(int id)
+        {
+            var result = _aboutService.TGetByID(id);
+            if (result == null)
+                return NotFound("About bulunamadı.");
+
+            return Ok(result);
+        }
+
+        // ABOUT EKLE
         [HttpPost]
         public IActionResult CreateAbout(CreateAboutDto createAboutDto)
         {
@@ -32,38 +45,37 @@ namespace QRMenuAPI.Controllers
                 title = createAboutDto.title,
                 Description = createAboutDto.Description
             };
-            _aboutService.TAdd(about);
 
-            return Ok("Hakkımda Kısmı Başarılı Bir Şekilde Eklendi.");
+            _aboutService.TAdd(about);
+            return Ok("Hakkımda alanı başarılı bir şekilde eklendi.");
         }
+
+        // ABOUT SİL
         [HttpDelete("{id}")]
         public IActionResult DeleteAbout(int id)
         {
             var result = _aboutService.TGetByID(id);
+            if (result == null)
+                return NotFound("Silinecek About bulunamadı.");
 
             _aboutService.TDelete(result);
-            return Ok("Hakkımda Alanı Silindi.");
+            return Ok("Hakkımda alanı silindi.");
         }
-        [HttpPut]
-        public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
+
+        // ABOUT GÜNCELLE
+        [HttpPut("{id}")]
+        public IActionResult UpdateAbout(int id, UpdateAboutDto updateAboutDto)
         {
             var about = new About
             {
-                AboutID = updateAboutDto.AboutID,
+                AboutID = id,
                 ImageUrl = updateAboutDto.ImageUrl,
                 title = updateAboutDto.title,
                 Description = updateAboutDto.Description
             };
 
             _aboutService.TUpdate(about);
-            return Ok("Hakkımda Alanı Başarılı Bir Şekilde Güncellendi.");
-        }
-
-        [HttpGet("id")]
-        public IActionResult GetAbout(int id)
-        {
-            var result = _aboutService.TGetByID(id);
-            return Ok(result);
+            return Ok("Hakkımda alanı başarılı bir şekilde güncellendi.");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using QRMenuWebUI.Dtos.AboutDtos; // ✅ About için DTO klasörünü kullanmalısın
+using QRMenuWebUI.Dtos.AboutDtos;
+using System.Text;
 
 namespace QRMenuWebUI.Controllers
 {
@@ -42,7 +43,7 @@ namespace QRMenuWebUI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createAboutDto);
-            var stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             var responseMessage = await client.PostAsync("https://localhost:44366/api/About", stringContent);
             if (responseMessage.IsSuccessStatusCode)
@@ -90,7 +91,7 @@ namespace QRMenuWebUI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateAboutDto);
-            var stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             var responseMessage = await client.PutAsync(
                 $"https://localhost:44366/api/About/{updateAboutDto.AboutID}",
