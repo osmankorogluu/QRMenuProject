@@ -17,7 +17,7 @@ namespace YourProject.API.Controllers
         }
 
 
-        // Tüm indirimleri getir
+       
         [HttpGet]
         public IActionResult GetDiscounts()
         {
@@ -25,7 +25,7 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        // Belirli bir indirimi getir
+      
         [HttpGet("{id}")]
         public IActionResult GetDiscount(int id)
         {
@@ -35,7 +35,7 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        // Yeni Discount oluştur
+      
         [HttpPost]
         public IActionResult CreateDiscount(CreateDiscountDto createDiscountDto)
         {
@@ -51,7 +51,6 @@ namespace YourProject.API.Controllers
             return Ok("Discount başarıyla oluşturuldu.");
         }
 
-        // Discount güncelle
         [HttpPut]
         public IActionResult UpdateDiscount(UpdateDiscountDto updateDiscountDto)
         {
@@ -68,7 +67,7 @@ namespace YourProject.API.Controllers
             return Ok("Discount başarıyla güncellendi.");
         }
 
-        // Discount sil
+     
         [HttpDelete("{id}")]
         public IActionResult DeleteDiscount(int id)
         {
@@ -80,9 +79,5 @@ namespace YourProject.API.Controllers
             return Ok("Discount başarıyla silindi.");
         }
     }
-    // Change the access modifier of IDiscountService from internal to public
-    // This interface must be declared as public in its definition file.
-    // Example (in the file where IDiscountService is defined):
-
    
 }
