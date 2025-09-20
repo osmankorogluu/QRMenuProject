@@ -1,7 +1,8 @@
-﻿@model List<QRMenuWebUI.Dtos.DiscountDtos.ResultDiscountDto>
+﻿@using QRMenuWebUI.Dtos.DiscountDtos
+@model List<ResultDiscountDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "İndirimler";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
@@ -21,11 +22,11 @@
         border: 1px solid #e5e7eb;
         border-radius: 12px;
         background: #fff;
-        box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 6px rgba(0,0,0,.05);
     }
 
     .card-header-modern {
-        background: #ffffff;
+        background: #fff;
         border-bottom: 1px solid #e5e7eb;
         font-weight: 600;
         font-size: 1rem;
@@ -39,26 +40,60 @@
         background-color: #fafafa !important;
         font-weight: 600;
         text-transform: uppercase;
-        font-size: 0.8rem;
+        font-size: .8rem;
         color: #444;
     }
 
     .table-modern td {
         vertical-align: middle;
-        font-size: 0.9rem;
+        font-size: .9rem;
     }
 
-    .badge {
+    .thumb {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
         border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 500;
+        border: 1px solid #e5e7eb;
     }
 
-    .btn-action {
+    .desc {
+        max-width: 360px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Sil & Güncelle butonları */
+    .btn-sil {
+        background: transparent;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+        padding: 4px 12px;
         border-radius: 6px;
-        padding: 4px 10px;
         font-size: 0.85rem;
+        transition: all 0.2s ease;
     }
+
+        .btn-sil:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+    .btn-guncelle {
+        background: transparent;
+        border: 1px solid #28a745;
+        color: #28a745;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+        .btn-guncelle:hover {
+            background: #28a745;
+            color: #fff;
+        }
 </style>
 
 <div class="content">
@@ -70,63 +105,67 @@
                     <i class="fas fa-plus-circle me-1"></i> Yeni İndirim
                 </a>
             </div>
+
             <div class="card-body p-4">
                 <table class="table table-modern table-hover text-center align-middle">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Ürün</th>
-                            <th>İndirm Oranı</th>
-                            <th>Durum</th>
-                            <th>Sil</th>
-                            <th>Güncelle</th>
+                            <th style="width:70px">#</th>
+                            <th>Başlık</th>
+                            <th style="width:140px">İndirim Oranı</th>
+                            <th>Açıklama</th>
+                            <th style="width:90px">Görsel</th>
+                            <th style="width:210px">İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model != null && Model.Any())
                         {
+                            var i = 1;
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
-                                        <span class="badge bg-secondary px-3 py-2">
-                                            @item.DiscountID
-                                        </span>
-                                        <span class="badge bg-secondary px-3 py-2">
-                                            @item.Title
-                                        </span>
-                                        <span class="badge bg-secondary px-3 py-2">
-                                            @item.Amount
-                                        </span>
-                                    </td>
+                                    <td>@i</td>
                                     <td class="fw-semibold">@item.Title</td>
-                                    
                                     <td>
-                                        <a href="/Discount/DeleteDiscount/@item.DiscountID"
-                                           class="btn btn-outline-danger btn-sm btn-action">
-                                            Sil
-                                        </a>
+                                        @{
+                                            var amt = (item?.Amount ?? "").Trim();
+                                            var shown = amt.EndsWith("%") ? amt : (string.IsNullOrWhiteSpace(amt) ? "-" : amt + "%");
+                                        }
+                                        @shown
+                                    </td>
+                                    <td class="text-start">
+                                        <span class="desc" title="@item?.Description">@item?.Description</span>
                                     </td>
                                     <td>
-                                        <a href="/Discount/DeleteDiscount/@item.DiscountID"
-                                           class="btn btn-outline-success btn-sm btn-action">
-                                            Durum
-                                        </a>
+                                        @if (!string.IsNullOrWhiteSpace(item?.ImageUrl))
+                                        {
+                                            <img class="thumb" src="@item.ImageUrl" alt="@item.Title" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
                                     </td>
                                     <td>
                                         <a href="/Discount/UpdateDiscount/@item.DiscountID"
-                                           class="btn btn-outline-success btn-sm btn-action">
+                                           class="btn-guncelle me-2">
                                             Güncelle
                                         </a>
+                                        <a href="/Discount/DeleteDiscount/@item.DiscountID"
+                                           class="btn-sil"
+                                           onclick="return confirm('Bu indirimi silmek istediğine emin misin?');">
+                                            Sil
+                                        </a>
                                     </td>
-                                   
                                 </tr>
+                                i++;
                             }
                         }
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-muted py-4">
+                                <td colspan="6" class="text-muted py-4">
                                     <i class="fas fa-inbox fa-2x d-block mb-2"></i>
                                     Hiç indirim bulunamadı.
                                 </td>

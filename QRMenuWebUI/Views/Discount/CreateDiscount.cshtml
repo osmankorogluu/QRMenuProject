@@ -10,37 +10,40 @@
         <h4 class="page-title">İndirim İşlemleri</h4>
         <div class="row">
             <div class="col-md-12">
-
                 <form asp-action="CreateDiscount" asp-controller="Discount" method="post">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Yeni İndirim Girişi</div>
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-header bg-white border-bottom">
+                            <h5 class="card-title mb-0">Yeni İndirim Girişi</h5>
                         </div>
+
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="Title">İndirim Başlığını Giriniz</label>
-                                <input type="text" class="form-control" asp-for="Title" id="Title" />
+                            <div class="form-group mb-3">
+                                <label asp-for="Title" class="form-label">İndirim Başlığı</label>
+                                <input type="text" class="form-control" asp-for="Title" placeholder="İndirim başlığı giriniz" />
                             </div>
-                            <div class="form-group mt-3">
-                                <label for="Amount">İndirim Oranını Giriniz (%)</label>
-                                <input type="number" class="form-control" asp-for="Amount" id="Amount" min="0" max="100" />
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Amount" class="form-label">İndirim Oranı (%)</label>
+                                <input type="number" class="form-control" asp-for="Amount" min="0" max="100" placeholder="0 - 100 arası" />
                             </div>
-                            <div class="form-group mt-3">
-                                <label for="ImageUrl">Görsel Url</label>
-                                <input type="text" class="form-control" asp-for="ImageUrl" id="ImageUrl" min="0" max="100" />
+
+                            <div class="form-group mb-3">
+                                <label asp-for="ImageUrl" class="form-label">Görsel URL</label>
+                                <input type="text" class="form-control" asp-for="ImageUrl" placeholder="https://..." />
                             </div>
-                            <div class="form-group mt-3">
-                                <label for="Description">Açıklama</label>
-                                <input type="text" class="form-control" asp-for="Description" id="Description" min="0" max="100" />
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Description" class="form-label">Açıklama</label>
+                                <textarea class="form-control" asp-for="Description" rows="3" placeholder="İndirim hakkında kısa açıklama"></textarea>
                             </div>
                         </div>
 
-                        <div class="card-action">
-                            <button type="submit" class="btn btn-primary">İndirim Ekle</button>
+                        <div class="card-footer bg-white border-top">
+                            <button type="submit" class="btn btn-primary px-4">İndirim Ekle</button>
+                            <a href="/Discount/Index" class="btn btn-secondary ms-2">İptal</a>
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

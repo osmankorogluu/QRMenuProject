@@ -13,7 +13,6 @@ namespace QRMenuWebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-      
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
@@ -29,7 +28,6 @@ namespace QRMenuWebUI.Controllers
             return View(new List<ResultDiscountDto>());
         }
 
-       
         [HttpGet]
         public IActionResult CreateDiscount()
         {
@@ -41,7 +39,7 @@ namespace QRMenuWebUI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createDiscountDto);
-            StringContent stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
 
             var responseMessage = await client.PostAsync("https://localhost:44366/api/Discount", stringContent);
             if (responseMessage.IsSuccessStatusCode)
@@ -49,23 +47,17 @@ namespace QRMenuWebUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View();
+            ModelState.AddModelError("", "İndirim eklenemedi.");
+            return View(createDiscountDto);
         }
 
-      
         public async Task<IActionResult> DeleteDiscount(int id)
         {
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.DeleteAsync($"https://localhost:44366/api/Discount/{id}");
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return View();
+            return RedirectToAction("Index");
         }
 
-       
         [HttpGet]
         public async Task<IActionResult> UpdateDiscount(int id)
         {
@@ -79,16 +71,15 @@ namespace QRMenuWebUI.Controllers
                 return View(values);
             }
 
-            return View();
+            return RedirectToAction("Index");
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> UpdateDiscount(UpdateDiscountDto updateDiscountDto)
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateDiscountDto);
-            StringContent stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
 
             var responseMessage = await client.PutAsync($"https://localhost:44366/api/Discount/{updateDiscountDto.DiscountID}", stringContent);
 
@@ -97,6 +88,7 @@ namespace QRMenuWebUI.Controllers
                 return RedirectToAction("Index");
             }
 
+            ModelState.AddModelError("", "İndirim güncellenemedi.");
             return View(updateDiscountDto);
         }
     }

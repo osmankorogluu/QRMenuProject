@@ -13,11 +13,9 @@ namespace YourProject.API.Controllers
 
         public DiscountController(IDiscountService discountService)
         {
-            _discountService=discountService;
+            _discountService = discountService;
         }
 
-
-       
         [HttpGet]
         public IActionResult GetDiscounts()
         {
@@ -25,7 +23,6 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-      
         [HttpGet("{id}")]
         public IActionResult GetDiscount(int id)
         {
@@ -35,7 +32,6 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-      
         [HttpPost]
         public IActionResult CreateDiscount(CreateDiscountDto createDiscountDto)
         {
@@ -48,13 +44,13 @@ namespace YourProject.API.Controllers
             };
 
             _discountService.TAdd(discount);
-            return Ok("Discount başarıyla oluşturuldu.");
+            return Ok(new { Message = "Discount başarıyla oluşturuldu.", discount });
         }
 
-        [HttpPut]
-        public IActionResult UpdateDiscount(UpdateDiscountDto updateDiscountDto)
+        [HttpPut("{id}")]
+        public IActionResult UpdateDiscount(int id, UpdateDiscountDto updateDiscountDto)
         {
-            var discount = _discountService.TGetByID(updateDiscountDto.DiscountID);
+            var discount = _discountService.TGetByID(id);
             if (discount == null)
                 return NotFound("Discount bulunamadı.");
 
@@ -64,10 +60,9 @@ namespace YourProject.API.Controllers
             discount.ImageUrl = updateDiscountDto.ImageUrl;
 
             _discountService.TUpdate(discount);
-            return Ok("Discount başarıyla güncellendi.");
+            return Ok(new { Message = "Discount başarıyla güncellendi.", discount });
         }
 
-     
         [HttpDelete("{id}")]
         public IActionResult DeleteDiscount(int id)
         {
@@ -79,5 +74,4 @@ namespace YourProject.API.Controllers
             return Ok("Discount başarıyla silindi.");
         }
     }
-   
 }
