@@ -3,7 +3,6 @@ using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
 using SignalR.DtoLayer.ContactDto;
 
-
 namespace YourProject.API.Controllers
 {
     [Route("api/[controller]")]
@@ -17,7 +16,6 @@ namespace YourProject.API.Controllers
             _contactService = contactService;
         }
 
-        
         [HttpGet]
         public IActionResult GetContacts()
         {
@@ -25,7 +23,6 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        
         [HttpGet("{id}")]
         public IActionResult GetContact(int id)
         {
@@ -35,7 +32,6 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        // Yeni Contact oluştur
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
         {
@@ -51,11 +47,10 @@ namespace YourProject.API.Controllers
             return Ok("Contact başarıyla oluşturuldu.");
         }
 
-        // Contact güncelle
-        [HttpPut]
-        public IActionResult UpdateContact(UpdateContactDto updateContactDto)
+        [HttpPut("{id}")]
+        public IActionResult UpdateContact(int id, UpdateContactDto updateContactDto)
         {
-            var contact = _contactService.TGetByID(updateContactDto.ContactID);
+            var contact = _contactService.TGetByID(id);
             if (contact == null)
                 return NotFound("Contact bulunamadı.");
 
@@ -68,7 +63,6 @@ namespace YourProject.API.Controllers
             return Ok("Contact başarıyla güncellendi.");
         }
 
-        // Contact sil
         [HttpDelete("{id}")]
         public IActionResult DeleteContact(int id)
         {

@@ -1,0 +1,156 @@
+﻿@using QRMenuWebUI.Dtos.ContactDtos
+
+@model List<ResultContactDto>
+
+@{
+    ViewData["Title"] = "İletişim Bilgileri";
+    Layout = "~/Views/AdminLayoutController1/Index.cshtml";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2d2d2d;
+    }
+
+    .page-wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .card-modern {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,.05);
+    }
+
+    .card-header-modern {
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-modern th {
+        background-color: #fafafa !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: .8rem;
+        color: #444;
+    }
+
+    .table-modern td {
+        vertical-align: middle;
+        font-size: .9rem;
+    }
+
+    .desc {
+        max-width: 360px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Sil & Güncelle butonları */
+    .btn-sil {
+        background: transparent;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+        .btn-sil:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+    .btn-guncelle {
+        background: transparent;
+        border: 1px solid #28a745;
+        color: #28a745;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+        .btn-guncelle:hover {
+            background: #28a745;
+            color: #fff;
+        }
+</style>
+
+<div class="content">
+    <div class="page-wrapper">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <span><i class="la la-envelope me-2"></i> İletişim Yönetimi</span>
+                <a href="/Contact/CreateContact/" class="btn btn-dark btn-sm fw-bold">
+                    <i class="la la-plus-circle me-1"></i> Yeni İletişim
+                </a>
+            </div>
+
+            <div class="card-body p-4">
+                <table class="table table-modern table-hover text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width:60px">#</th>
+                            <th>Adres</th>
+                            <th>Telefon</th>
+                            <th>Mail</th>
+                            <th>Açıklama</th>
+                            <th style="width:200px">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.Location</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Mail</td>
+                                    <td class="text-start">
+                                        <span class="desc" title="@item.FooterDescription">@item.FooterDescription</span>
+                                    </td>
+                                    <td>
+                                        <a href="/Contact/UpdateContact/@item.ContactID"
+                                           class="btn-guncelle me-2">
+                                            Güncelle
+                                        </a>
+                                        <a href="/Contact/DeleteContact/@item.ContactID"
+                                           class="btn-sil">
+                                            Sil
+                                        </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-muted py-4">
+                                    <i class="la la-inbox fa-2x d-block mb-2"></i>
+                                    Hiç iletişim kaydı bulunamadı.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -53,7 +53,7 @@ namespace YourProject.API.Controllers
         }
 
         // Feature güncelle
-        [HttpPut]
+        [HttpPut] // dikkat: burada {id} kullanılmıyor
         public IActionResult UpdateFeature(UpdateFeatureDto updateFeatureDto)
         {
             var feature = _featureService.TGetByID(updateFeatureDto.FeatureID);
