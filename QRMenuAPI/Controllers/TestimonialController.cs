@@ -9,6 +9,7 @@ namespace YourProject.API.Controllers
     [ApiController]
     public class TestimonialController : ControllerBase
     {
+        // Senin interface adınla birebir: ITestoimonialService
         private readonly ITestoimonialService _testimonialService;
 
         public TestimonialController(ITestoimonialService testimonialService)
@@ -16,7 +17,7 @@ namespace YourProject.API.Controllers
             _testimonialService = testimonialService;
         }
 
-       
+        // Listeleme
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -24,8 +25,8 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-       
-        [HttpGet("{id}")]
+        // Tek kayıt
+        [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
             var value = _testimonialService.TGetByID(id);
@@ -35,10 +36,13 @@ namespace YourProject.API.Controllers
             return Ok(value);
         }
 
-      
+        // Ekleme
         [HttpPost]
-        public IActionResult Create(CreateTestimonialDto dto)
+        public IActionResult Create([FromBody] CreateTestimonialDto dto)
         {
+            if (dto == null)
+                return BadRequest("İstek gövdesi boş olamaz.");
+
             var testimonial = new Testimonial
             {
                 Name = dto.Name,
@@ -47,16 +51,23 @@ namespace YourProject.API.Controllers
                 ImageUrl = dto.ImageUrl,
                 Status = dto.Status
             };
-            _testimonialService.TAdd(testimonial);
 
+            _testimonialService.TAdd(testimonial);
             return Ok("Referans başarıyla eklendi.");
         }
 
-        
-        [HttpPut]
-        public IActionResult Update(UpdateTestimonialDto dto)
+        // Güncelleme (UI: PUT /api/Testimonial/{id})
+        [HttpPut("{id:int}")]
+        public IActionResult Update(int id, [FromBody] UpdateTestimonialDto dto)
         {
-            var existing = _testimonialService.TGetByID(dto.TestimonialID);
+            if (dto == null)
+                return BadRequest("İstek gövdesi boş olamaz.");
+
+            // Route id ile body id uyuşmazlığı kontrolü (body id geldiyse ve farklıysa hata)
+            if (dto.TestimonialID != 0 && dto.TestimonialID != id)
+                return BadRequest("Route Id ile gövdedeki Id uyuşmuyor.");
+
+            var existing = _testimonialService.TGetByID(id);
             if (existing == null)
                 return NotFound("Güncellenecek referans bulunamadı.");
 
@@ -67,11 +78,11 @@ namespace YourProject.API.Controllers
             existing.Status = dto.Status;
 
             _testimonialService.TUpdate(existing);
-            return Ok("Referans başarıyla güncellendi.");
+            return Ok(existing); // Güncellenmiş kaydı döndürmek debug için faydalı
         }
 
-        
-        [HttpDelete("{id}")]
+        // Silme
+        [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
             var existing = _testimonialService.TGetByID(id);
