@@ -16,7 +16,7 @@ namespace YourProject.API.Controllers
             _socialMediaService = socialMediaService;
         }
 
-       
+        // Tüm kayıtlar
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -24,7 +24,7 @@ namespace YourProject.API.Controllers
             return Ok(result);
         }
 
-        
+        // Tek kayıt
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -35,7 +35,7 @@ namespace YourProject.API.Controllers
             return Ok(value);
         }
 
-      
+        // Ekle
         [HttpPost]
         public IActionResult Create(CreateSocialMediaDto dto)
         {
@@ -50,11 +50,11 @@ namespace YourProject.API.Controllers
             return Ok("Sosyal medya başarıyla eklendi.");
         }
 
-     
-        [HttpPut]
-        public IActionResult Update(UpdateSocailMediaDto dto)
+        // Güncelle
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateSocailMediaDto dto)  // burada "Socail"
         {
-            var existing = _socialMediaService.TGetByID(dto.SocialMediaID);
+            var existing = _socialMediaService.TGetByID(id);
             if (existing == null)
                 return NotFound("Güncellenecek sosyal medya bulunamadı.");
 
@@ -66,7 +66,8 @@ namespace YourProject.API.Controllers
             return Ok("Sosyal medya başarıyla güncellendi.");
         }
 
-   
+
+        // Sil
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
