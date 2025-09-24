@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index2";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
@@ -16,30 +16,31 @@
 
                     <script type="text/javascript">
                         $(document).ready(function () {
-                            // Hub bağlantısı oluştur
+
+                           
                             var connection = new signalR.HubConnectionBuilder()
                                 .withUrl("https://localhost:44366/SignalRHub")
+                                .withAutomaticReconnect() 
                                 .build();
 
-                            // Bağlantı durumu
+                          
                             connection.onclose(() => {
                                 $("#connstatus").text("Disconnected");
                             });
 
-                            // Server'dan kategori sayısı alındığında DOM’a yaz
+                         
                             connection.on("ReceiveCategoryCount", (value) => {
-                                console.log("Kategori sayısı geldi:", value);
+                                console.log("Kategori sayısı:", value);
                                 $("#categorycount").text(value);
                             });
 
-                            // Bağlantıyı başlat
+                            
                             connection.start()
                                 .then(() => {
                                     $("#connstatus").text("Connected");
 
-                                    // Her 1 sn'de bir server'a invoke gönder
+                                    
                                     setInterval(() => {
-                                        console.log("SendCategoryCount çağrıldı.");
                                         connection.invoke("SendCategoryCount")
                                             .catch(err => console.error("Invoke hatası:", err));
                                     }, 1000);
