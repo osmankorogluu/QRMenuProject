@@ -1,61 +1,512 @@
 ﻿@model QRMenuWebUI.Dtos.BookingDtos.UpdateBookingDto
-
 @{
     ViewData["Title"] = "UpdateBooking";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
+<!-- FontAwesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
+        font-family: 'Inter', 'Segoe UI', sans-serif !important;
+        color: #2d3748 !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .content {
+        background: transparent !important;
+        min-height: 100vh;
+    }
+
+    .page-wrapper {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .header-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 25px 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+
+        .header-title i {
+            background: linear-gradient(135deg, #f6ad55, #ed8936);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 15px;
+            font-size: 2rem;
+        }
+
+    .booking-id-badge {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 10px;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+        .booking-id-badge i {
+            margin-right: 8px;
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        padding: 25px 30px;
+        border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    }
+
+        .form-header h5 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-header h5 i {
+                color: #f6ad55;
+                margin-right: 12px;
+                font-size: 1.4rem;
+            }
+
+    .form-body {
+        padding: 35px 30px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
+    }
+
+        .form-label i {
+            color: #f6ad55;
+            margin-right: 8px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+    .form-control {
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px 18px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+        .form-control:focus {
+            border-color: #f6ad55;
+            box-shadow: 0 0 0 4px rgba(246, 173, 85, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .form-control::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+    .input-icon {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #cbd5e0;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+    .text-danger {
+        color: #e53e3e !important;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .form-footer {
+        background: rgba(254, 243, 199, 0.4);
+        padding: 25px 30px;
+        border-top: 1px solid rgba(251, 191, 36, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .btn-modern {
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        min-width: 130px;
+        cursor: pointer;
+    }
+
+    .btn-back {
+        background: transparent;
+        color: #718096;
+        border-color: #e2e8f0;
+    }
+
+        .btn-back:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            color: #4a5568;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+    .btn-update {
+        background: linear-gradient(135deg, #f6ad55, #ed8936);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
+    }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(246, 173, 85, 0.6);
+            color: white;
+        }
+
+        .btn-update i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+    /* Status indicator */
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        padding: 12px 16px;
+        background: rgba(72, 187, 120, 0.1);
+        border: 1px solid rgba(72, 187, 120, 0.2);
+        border-radius: 10px;
+        color: #38a169;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+        .status-indicator i {
+            color: #38a169;
+        }
+
+  
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+  
+
+    {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-header,
+    .form-body,
+    .form-footer {
+        padding: 20px;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-modern {
+        width: 100%;
+        min-width: auto;
+    }
+
+    }
+
+    /* Geçerli input durumu */
+    .form-control:valid:not(:placeholder-shown) {
+        border-color: #48bb78;
+        background: rgba(72, 187, 120, 0.05);
+    }
+
+        .form-control:valid:not(:placeholder-shown) + .input-icon i {
+            color: #48bb78;
+        }
+
+    /* Updated input styling */
+    .form-control[value]:not([value=""]) {
+        background: rgba(246, 173, 85, 0.05);
+        border-color: #f6ad55;
+    }
+</style>
+
 <div class="content">
-    <div class="container-fluid">
-        <h4 class="page-title">Booking İşlemleri</h4>
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <form asp-action="UpdateBooking" asp-controller="Booking" method="post">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white border-bottom">
-                            <h5 class="card-title mb-0">Rezervasyon Güncelle</h5>
-                        </div>
-                        <input type="hidden" asp-for="BookingID" />
-                        <div class="card-body">
-
-                            <div class="form-group mb-3">
-                                <label for="Name" class="form-label fw-semibold">Ad Soyad</label>
-                                <input type="text" class="form-control" asp-for="Name" id="Name" placeholder="Ad Soyad giriniz" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="Phone" class="form-label fw-semibold">Telefon Numarası</label>
-                                <input type="text" class="form-control" asp-for="Phone" id="Phone" placeholder="0539 297 79 32" />
-                                <span asp-validation-for="Phone" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="Email" class="form-label fw-semibold">Mail Adresi</label>
-                                <input type="email" class="form-control" asp-for="Mail" id="Email" placeholder="example@mail.com" />
-                                <span asp-validation-for="Mail" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="PersonCount" class="form-label fw-semibold">Kişi Sayısı</label>
-                                <input type="number" class="form-control" asp-for="PersonCount" id="PersonCount" />
-                                <span asp-validation-for="PersonCount" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="Date" class="form-label fw-semibold">Rezervasyon Tarihi</label>
-                                <input type="date" class="form-control" asp-for="Date" id="Date" />
-                                <span asp-validation-for="Date" class="text-danger"></span>
-                            </div>
-
-                        </div>
-                        <div class="card-footer bg-white border-top d-flex justify-content-between">
-                            <a href="/Booking/Index" class="btn btn-outline-secondary">Geri Dön</a>
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
-                        </div>
-                    </div>
-                </form>
+    <div class="page-wrapper">
+        <div class="header-section">
+            <h1 class="header-title">
+                <i class="fas fa-edit"></i>
+                Rezervasyon Güncelle
+            </h1>
+            <div class="booking-id-badge">
+                <i class="fas fa-hashtag"></i>
+                Rezervasyon ID: @Model.BookingID
             </div>
         </div>
+
+        <form asp-action="UpdateBooking" asp-controller="Booking" method="post">
+            <input type="hidden" asp-for="BookingID" />
+            <div class="form-card">
+                <div class="form-header">
+                    <h5>
+                        <i class="fas fa-user-edit"></i>
+                        Rezervasyon Bilgilerini Düzenle
+                    </h5>
+                    <div class="status-indicator">
+                        <i class="fas fa-info-circle"></i>
+                        Mevcut bilgileri güncelleyebilirsiniz
+                    </div>
+                </div>
+
+                <div class="form-body">
+                    <div class="form-group">
+                        <label for="Name" class="form-label">
+                            <i class="fas fa-user"></i>
+                            Ad Soyad
+                        </label>
+                        <div class="input-icon">
+                            <input type="text"
+                                   class="form-control"
+                                   asp-for="Name"
+                                   id="Name"
+                                   placeholder="Müşteri adını ve soyadını giriniz"
+                                   required />
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Phone" class="form-label">
+                            <i class="fas fa-phone"></i>
+                            Telefon Numarası
+                        </label>
+                        <div class="input-icon">
+                            <input type="tel"
+                                   class="form-control"
+                                   asp-for="Phone"
+                                   id="Phone"
+                                   placeholder="0539 297 79 32"
+                                   required />
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Mail" class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            E-posta Adresi
+                        </label>
+                        <div class="input-icon">
+                            <input type="email"
+                                   class="form-control"
+                                   asp-for="Mail"
+                                   id="Mail"
+                                   placeholder="example@email.com" />
+                            <i class="fas fa-at"></i>
+                        </div>
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PersonCount" class="form-label">
+                            <i class="fas fa-users"></i>
+                            Kişi Sayısı
+                        </label>
+                        <div class="input-icon">
+                            <input type="number"
+                                   class="form-control"
+                                   asp-for="PersonCount"
+                                   id="PersonCount"
+                                   min="1"
+                                   max="20"
+                                   placeholder="Kaç kişi için rezervasyon?"
+                                   required />
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <span asp-validation-for="PersonCount" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Date" class="form-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            Rezervasyon Tarihi
+                        </label>
+                        <div class="input-icon">
+                            <input type="date"
+                                   class="form-control"
+                                   asp-for="Date"
+                                   id="Date"
+                                   required />
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <a href="/Booking/Index" class="btn-modern btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                        Geri Dön
+                    </a>
+                    <button type="submit" class="btn-modern btn-update">
+                        <i class="fas fa-sync-alt"></i>
+                        Rezervasyonu Güncelle
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('Phone');
+        const dateInput = document.getElementById('Date');
+
+        // Telefon numarası formatlaması
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 4) {
+                    value = value.replace(/(\d{4})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+                }
+                if (value.length > 13) {
+                    value = value.substring(0, 13);
+                }
+                e.target.value = value;
+            });
+        }
+
+        // Minimum tarih bugün olarak ayarla
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+        }
+
+        // Form submit animasyonu
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const submitBtn = form.querySelector('.btn-update');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Güncelleniyor...';
+                    submitBtn.disabled = true;
+                }
+            });
+        }
+
+        // Mevcut verileri vurgula
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            if (input.value && input.value.trim() !== '') {
+                input.style.background = 'rgba(246, 173, 85, 0.05)';
+                input.style.borderColor = '#f6ad55';
+            }
+        });
+    });
+</script>

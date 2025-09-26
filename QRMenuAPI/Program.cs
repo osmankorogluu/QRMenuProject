@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -12,7 +12,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS
+// ------------------- CORS -------------------
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policy =>
@@ -24,17 +24,17 @@ builder.Services.AddCors(opt =>
     });
 });
 
-// SignalR
+// ------------------- SignalR -------------------
 builder.Services.AddSignalR();
 
-// DbContext
+// ------------------- DbContext -------------------
 builder.Services.AddDbContext<SignalRContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// AutoMapper
+// ------------------- AutoMapper -------------------
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Service & DAL dependency injection
+// ------------------- Dependency Injection -------------------
 builder.Services.AddScoped<IAboutService, AboutManager>();
 builder.Services.AddScoped<IAboutDal, EfAboutDal>();
 
@@ -62,18 +62,31 @@ builder.Services.AddScoped<ISocialMediaDal, EfSocialMediaDal>();
 builder.Services.AddScoped<ITestoimonialService, TestimonialManager>();
 builder.Services.AddScoped<ITestimonialDal, EfTestimonialDal>();
 
-// Controllers & Swagger
+// ------------------- Controllers & Swagger -------------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "QRMenu API",
+        Version = "v1",
+        Description = "QRMenu Projesi için geliştirilmiş API dokümantasyonu"
+    });
+});
 
+// ------------------- App Pipeline -------------------
 var app = builder.Build();
 
-// Swagger dev ortam�nda aktif
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage(); // ✔️ Hataları detaylı görmek için
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QRMenu API v1");
+        c.DocExpansion(DocExpansion.None);
+    });
 }
 
 app.UseCors("CorsPolicy");

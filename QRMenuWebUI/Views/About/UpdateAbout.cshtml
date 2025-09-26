@@ -1,55 +1,597 @@
 ﻿@model QRMenuWebUI.Dtos.AboutDtos.UpdateAboutDto
-
 @{
     ViewData["Title"] = "UpdateAbout";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
+<!-- FontAwesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
+        font-family: 'Inter', 'Segoe UI', sans-serif !important;
+        color: #2d3748 !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .content {
+        background: transparent !important;
+        min-height: 100vh;
+    }
+
+    .page-wrapper {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .header-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 25px 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+
+        .header-title i {
+            background: linear-gradient(135deg, #f6ad55, #ed8936);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 15px;
+            font-size: 2rem;
+        }
+
+    .about-id-badge {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 10px;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+        .about-id-badge i {
+            margin-right: 8px;
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        padding: 25px 30px;
+        border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    }
+
+        .form-header h5 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-header h5 i {
+                color: #f6ad55;
+                margin-right: 12px;
+                font-size: 1.4rem;
+            }
+
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        padding: 12px 16px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 10px;
+        color: #059669;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+        .status-indicator i {
+            color: #10b981;
+        }
+
+    .form-body {
+        padding: 35px 30px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
+    }
+
+        .form-label i {
+            color: #f6ad55;
+            margin-right: 8px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+    .form-control {
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px 18px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        resize: vertical;
+    }
+
+        .form-control:focus {
+            border-color: #f6ad55;
+            box-shadow: 0 0 0 4px rgba(246, 173, 85, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .form-control::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+    .input-icon {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 18px;
+            color: #cbd5e0;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+    .textarea-icon i {
+        top: 18px !important;
+    }
+
+    .text-danger {
+        color: #e53e3e !important;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .form-footer {
+        background: rgba(254, 243, 199, 0.4);
+        padding: 25px 30px;
+        border-top: 1px solid rgba(251, 191, 36, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .btn-modern {
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        min-width: 130px;
+        cursor: pointer;
+    }
+
+    .btn-back {
+        background: transparent;
+        color: #718096;
+        border-color: #e2e8f0;
+    }
+
+        .btn-back:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            color: #4a5568;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+    .btn-update {
+        background: linear-gradient(135deg, #f6ad55, #ed8936);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
+    }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(246, 173, 85, 0.6);
+            color: white;
+        }
+
+        .btn-update i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+    /* Character counter */
+    .char-counter {
+        position: absolute;
+        bottom: 8px;
+        right: 12px;
+        font-size: 0.8rem;
+        color: #a0aec0;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2px 6px;
+        border-radius: 4px;
+        pointer-events: none;
+        z-index: 3;
+    }
+
+    /* URL preview */
+    .url-preview {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(246, 173, 85, 0.05);
+        border: 1px solid rgba(246, 173, 85, 0.2);
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #ed8936;
+        display: none;
+    }
+
+        .url-preview.active {
+            display: block;
+        }
+
+        .url-preview i {
+            margin-right: 5px;
+        }
+
+    /* Modified fields indicator */
+    .modified-field {
+        border-color: #f6ad55 !important;
+        background: rgba(246, 173, 85, 0.05) !important;
+    }
+
+        .modified-field:focus {
+            border-color: #ed8936 !important;
+            box-shadow: 0 0 0 4px rgba(237, 137, 54, 0.1) !important;
+        }
+
+    /* Animasyonlar */
+    
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+ 
+
+    {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-header,
+    .form-body,
+    .form-footer {
+        padding: 20px;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-modern {
+        width: 100%;
+        min-width: auto;
+    }
+
+    }
+
+    /* Geçerli input durumu */
+    .form-control:valid:not(:placeholder-shown) {
+        border-color: #48bb78;
+        background: rgba(72, 187, 120, 0.05);
+    }
+
+        .form-control:valid:not(:placeholder-shown) + .input-icon i {
+            color: #48bb78;
+        }
+</style>
+
 <div class="content">
-    <div class="container-fluid">
-        <h4 class="page-title">About İşlemleri</h4>
-        <div class="row">
-            <div class="col-md-12">
-
-                <form asp-action="UpdateAbout" asp-controller="About" method="post">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">About Güncelleme</div>
-                        </div>
-
-                        <!-- ID Gizli Alan -->
-                        <input type="hidden" asp-for="AboutID" />
-
-                        <div class="card-body">
-                            <!-- Title -->
-                            <div class="form-group mb-3">
-                                <label for="Title">Başlık Giriniz</label>
-                                <input type="text" class="form-control" asp-for="Title" id="Title" />
-                                <span asp-validation-for="Title" class="text-danger"></span>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="form-group mb-3">
-                                <label for="Description">Açıklama Giriniz</label>
-                                <textarea class="form-control" asp-for="Description" id="Description" rows="4"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-
-                            <!-- ImageUrl -->
-                            <div class="form-group mb-3">
-                                <label for="ImageUrl">Görsel Url Giriniz</label>
-                                <input type="text" class="form-control" asp-for="ImageUrl" id="ImageUrl" />
-                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="card-action">
-                            <button type="submit" class="btn btn-primary">About Güncelle</button>
-                        </div>
-                    </div>
-                </form>
-
+    <div class="page-wrapper">
+        <div class="header-section">
+            <h1 class="header-title">
+                <i class="fas fa-edit"></i>
+                About İçeriği Güncelle
+            </h1>
+            <div class="about-id-badge">
+                <i class="fas fa-hashtag"></i>
+                İçerik ID: @Model.AboutID
             </div>
         </div>
+
+        <form asp-action="UpdateAbout" asp-controller="About" method="post">
+            <input type="hidden" asp-for="AboutID" />
+            <div class="form-card">
+                <div class="form-header">
+                    <h5>
+                        <i class="fas fa-file-edit"></i>
+                        İçerik Bilgilerini Düzenle
+                    </h5>
+                    <div class="status-indicator">
+                        <i class="fas fa-info-circle"></i>
+                        Mevcut içeriği güncelleyebilirsiniz
+                    </div>
+                </div>
+
+                <div class="form-body">
+                    <div class="form-group">
+                        <label for="Title" class="form-label">
+                            <i class="fas fa-heading"></i>
+                            Başlık
+                        </label>
+                        <div class="input-icon">
+                            <input type="text"
+                                   class="form-control"
+                                   asp-for="Title"
+                                   id="Title"
+                                   placeholder="Başlık giriniz"
+                                   maxlength="100"
+                                   required />
+                            <i class="fas fa-font"></i>
+                            <div class="char-counter" id="titleCounter">0/100</div>
+                        </div>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description" class="form-label">
+                            <i class="fas fa-align-left"></i>
+                            Açıklama
+                        </label>
+                        <div class="input-icon textarea-icon">
+                            <textarea class="form-control"
+                                      asp-for="Description"
+                                      id="Description"
+                                      rows="6"
+                                      placeholder="Detaylı açıklama yazınız..."
+                                      maxlength="1000"
+                                      required></textarea>
+                            <i class="fas fa-paragraph"></i>
+                            <div class="char-counter" id="descCounter">0/1000</div>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ImageUrl" class="form-label">
+                            <i class="fas fa-image"></i>
+                            Görsel URL'si
+                        </label>
+                        <div class="input-icon">
+                            <input type="url"
+                                   class="form-control"
+                                   asp-for="ImageUrl"
+                                   id="ImageUrl"
+                                   placeholder="https://example.com/image.jpg"
+                                   maxlength="500" />
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="url-preview" id="urlPreview">
+                            <i class="fas fa-eye"></i>
+                            URL geçerli görünüyor
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <a href="/About/Index" class="btn-modern btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                        Geri Dön
+                    </a>
+                    <button type="submit" class="btn-modern btn-update">
+                        <i class="fas fa-sync-alt"></i>
+                        İçeriği Güncelle
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleInput = document.getElementById('Title');
+        const descInput = document.getElementById('Description');
+        const imageUrlInput = document.getElementById('ImageUrl');
+        const urlPreview = document.getElementById('urlPreview');
+
+        // Orijinal değerleri sakla (değişiklikleri takip etmek için)
+        const originalValues = {
+            title: titleInput ? titleInput.value : '',
+            description: descInput ? descInput.value : '',
+            imageUrl: imageUrlInput ? imageUrlInput.value : ''
+        };
+
+        // Karakter sayacları
+        function updateCounter(input, counterId, maxLength) {
+            const counter = document.getElementById(counterId);
+            if (counter) {
+                const currentLength = input.value.length;
+                counter.textContent = `${currentLength}/${maxLength}`;
+
+                if (currentLength > maxLength * 0.8) {
+                    counter.style.color = '#f59e0b';
+                } else if (currentLength > maxLength * 0.9) {
+                    counter.style.color = '#ef4444';
+                } else {
+                    counter.style.color = '#a0aec0';
+                }
+            }
+        }
+
+        // Değişiklik takibi
+        function trackChanges(input, originalValue) {
+            if (input.value !== originalValue) {
+                input.classList.add('modified-field');
+            } else {
+                input.classList.remove('modified-field');
+            }
+        }
+
+        // Event listeners
+        if (titleInput) {
+            titleInput.addEventListener('input', () => {
+                updateCounter(titleInput, 'titleCounter', 100);
+                trackChanges(titleInput, originalValues.title);
+            });
+            updateCounter(titleInput, 'titleCounter', 100);
+        }
+
+        if (descInput) {
+            descInput.addEventListener('input', () => {
+                updateCounter(descInput, 'descCounter', 1000);
+                trackChanges(descInput, originalValues.description);
+            });
+            updateCounter(descInput, 'descCounter', 1000);
+        }
+
+        // URL validasyonu
+        if (imageUrlInput && urlPreview) {
+            imageUrlInput.addEventListener('input', function() {
+                const url = this.value.trim();
+                trackChanges(this, originalValues.imageUrl);
+
+                if (url) {
+                    try {
+                        new URL(url);
+                        if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                            urlPreview.style.color = '#059669';
+                            urlPreview.innerHTML = '<i class="fas fa-check-circle"></i> Geçerli görsel URL\'si';
+                            urlPreview.classList.add('active');
+                        } else {
+                            urlPreview.style.color = '#f59e0b';
+                            urlPreview.innerHTML = '<i class="fas fa-exclamation-triangle"></i> URL geçerli ancak görsel uzantısı bulunamadı';
+                            urlPreview.classList.add('active');
+                        }
+                    } catch {
+                        urlPreview.style.color = '#ef4444';
+                        urlPreview.innerHTML = '<i class="fas fa-times-circle"></i> Geçersiz URL formatı';
+                        urlPreview.classList.add('active');
+                    }
+                } else {
+                    urlPreview.classList.remove('active');
+                }
+            });
+
+            // İlk yükleme sırasında mevcut URL'yi kontrol et
+            if (imageUrlInput.value.trim()) {
+                imageUrlInput.dispatchEvent(new Event('input'));
+            }
+        }
+
+        // Form submit animasyonu
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const submitBtn = form.querySelector('.btn-update');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Güncelleniyor...';
+                    submitBtn.disabled = true;
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde mevcut değerleri vurgula
+        setTimeout(() => {
+            const inputs = [titleInput, descInput, imageUrlInput];
+            inputs.forEach(input => {
+                if (input && input.value && input.value.trim() !== '') {
+                    input.style.background = 'rgba(246, 173, 85, 0.05)';
+                    input.style.borderColor = '#f6ad55';
+                }
+            });
+        }, 500);
+    });
+</script>

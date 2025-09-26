@@ -1,75 +1,561 @@
 ﻿@model QRMenuWebUI.Dtos.ProductDtos.UpdateProductDto
-
 @{
-    ViewData["Title"] = "UpdateProduct";
+    ViewData["Title"] = "Ürün Güncelleme";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        color: #2d3748;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-wrapper {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .header-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 25px 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+
+        .header-title i {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+
+    .card-modern {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 30px;
+    }
+
+    .form-section {
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: rgba(249, 250, 251, 0.8);
+        backdrop-filter: blur(10px);
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        color: #374151;
+    }
+
+        .form-control-modern:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-control-modern:hover {
+            border-color: #9ca3af;
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+    .form-select-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: rgba(249, 250, 251, 0.8);
+        backdrop-filter: blur(10px);
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        color: #374151;
+        cursor: pointer;
+    }
+
+        .form-select-modern:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-select-modern:hover {
+            border-color: #9ca3af;
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        background: rgba(249, 250, 251, 0.6);
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .checkbox-container:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #9ca3af;
+        }
+
+    .checkbox-modern {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #9ca3af;
+        border-radius: 6px;
+        background: transparent;
+        cursor: pointer;
+        position: relative;
+        margin-right: 12px;
+        transition: all 0.3s ease;
+    }
+
+        .checkbox-modern:checked {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #059669;
+        }
+
+            .checkbox-modern:checked::after {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+    .checkbox-label {
+        font-weight: 600;
+        color: #374151;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        border: none;
+        color: white;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+    .btn-back {
+        background: transparent;
+        border: 2px solid #6b7280;
+        color: #6b7280;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+        .btn-back:hover {
+            background: #6b7280;
+            color: white;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+        }
+
+    .validation-error {
+        color: #ef4444;
+        font-size: 0.85rem;
+        margin-top: 6px;
+        font-weight: 500;
+    }
+
+    .input-icon {
+        position: relative;
+    }
+
+        .input-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            z-index: 1;
+        }
+
+        .input-icon .form-control-modern {
+            padding-left: 40px;
+        }
+
+    .price-input {
+        position: relative;
+    }
+
+        .price-input::after {
+            content: '₺';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #059669;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+    .image-preview {
+        margin-top: 10px;
+        border-radius: 12px;
+        overflow: hidden;
+        max-width: 200px;
+        border: 2px solid #e5e7eb;
+    }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    
+
+    {
+        margin: 15px auto;
+        padding: 0 15px;
+    }
+
+    .card-modern {
+        padding: 20px;
+    }
+
+    .header-title {
+        font-size: 1.3rem;
+    }
+
+    }
+
+  
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .card-modern {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .header-section {
+        animation: fadeInUp 0.4s ease-out;
+    }
+
+    .form-group {
+        animation: fadeInUp 0.5s ease-out;
+        animation-fill-mode: both;
+    }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .form-group:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+</style>
+
 <div class="content">
-    <div class="container-fluid">
-        <h4 class="page-title">Ürün Güncelleme Sayfası</h4>
-        <div class="row">
-            <div class="col-md-12">
-                <form asp-action="UpdateProduct" asp-controller="Product" method="post">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Ürün Güncelle</div>
+    <div class="page-wrapper">
+        <div class="header-section">
+            <h1 class="header-title">
+                <i class="fas fa-edit"></i>
+                Ürün Güncelleme
+            </h1>
+        </div>
+
+        <a href="/Product/Index" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Ürün Listesine Dön
+        </a>
+
+        <div class="card-modern">
+            <form asp-action="UpdateProduct" asp-controller="Product" method="post">
+                <input type="hidden" asp-for="ProductID" />
+
+                <div class="form-section">
+                    <div class="form-group">
+                        <label class="form-label" for="productname">
+                            <i class="fas fa-tag me-1"></i>
+                            Ürün Adı
+                        </label>
+                        <div class="input-icon">
+                            <i class="fas fa-box"></i>
+                            <input type="text"
+                                   class="form-control-modern"
+                                   asp-for="ProductName"
+                                   id="productname"
+                                   placeholder="Ürün adını giriniz" />
                         </div>
+                        <span asp-validation-for="ProductName" class="validation-error"></span>
+                    </div>
 
-                        <div class="card-body">
-                            
-                            <input type="hidden" asp-for="ProductID" />
-
-                            <div class="form-group mb-3">
-                                <label for="productname">Ürün Adı</label>
-                                <input type="text" class="form-control" asp-for="ProductName" id="productname" />
-                                <span asp-validation-for="ProductName" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="price">Ürün Fiyatı</label>
-                                <input type="number" step="0.01" class="form-control" asp-for="Price" id="price" />
-                                <span asp-validation-for="Price" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="imageurl">Ürün Görseli</label>
-                                <input type="text" class="form-control" asp-for="ImageUrl" id="imageurl" />
-                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="category">Kategori</label>
-                                @Html.DropDownListFor(model => model.CategoryID,
-                                (List<SelectListItem>)ViewBag.v,
-                                                                new { @class = "form-control", id = "category" })
-                                <span asp-validation-for="CategoryID" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="description">Açıklama</label>
-                                <input type="text" class="form-control" asp-for="Description" id="description" />
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-
-                          
-                            <div class="form-group mb-3">
-                                <label for="status">Durum</label>
-                                <input type="hidden" asp-for="ProductStatus" value="false" />
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" asp-for="ProductStatus" id="status" />
-                                    <label class="form-check-label" for="status">Aktif mi?</label>
-                                </div>
-                                <span asp-validation-for="ProductStatus" class="text-danger"></span>
-                            </div>
+                    <div class="form-group">
+                        <label class="form-label" for="price">
+                            <i class="fas fa-money-bill-wave me-1"></i>
+                            Ürün Fiyatı
+                        </label>
+                        <div class="price-input">
+                            <input type="number"
+                                   step="0.01"
+                                   class="form-control-modern"
+                                   asp-for="Price"
+                                   id="price"
+                                   placeholder="0.00"
+                                   style="padding-right: 40px;" />
                         </div>
+                        <span asp-validation-for="Price" class="validation-error"></span>
+                    </div>
 
-                        <div class="card-action">
-                            <button type="submit" class="btn btn-primary">Ürünü Güncelle</button>
+                    <div class="form-group">
+                        <label class="form-label" for="imageurl">
+                            <i class="fas fa-image me-1"></i>
+                            Ürün Görseli
+                        </label>
+                        <div class="input-icon">
+                            <i class="fas fa-link"></i>
+                            <input type="text"
+                                   class="form-control-modern"
+                                   asp-for="ImageUrl"
+                                   id="imageurl"
+                                   placeholder="Görsel URL'sini giriniz"
+                                   oninput="updateImagePreview(this.value)" />
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="validation-error"></span>
+                        <div id="imagePreview" class="image-preview" style="display: none;">
+                            <img id="previewImg" src="" alt="Ürün Görseli" />
                         </div>
                     </div>
-                </form>
-            </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="category">
+                            <i class="fas fa-list me-1"></i>
+                            Kategori
+                        </label>
+                        @Html.DropDownListFor(model => model.CategoryID,
+                        (List<SelectListItem>)ViewBag.v,
+                                                "Kategori Seçiniz...",
+                                                new { @class = "form-select-modern", id = "category" })
+                        <span asp-validation-for="CategoryID" class="validation-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="description">
+                            <i class="fas fa-align-left me-1"></i>
+                            Açıklama
+                        </label>
+                        <textarea class="form-control-modern"
+                                  asp-for="Description"
+                                  id="description"
+                                  rows="4"
+                                  placeholder="Ürün açıklamasını giriniz..."
+                                  style="resize: vertical; min-height: 100px;"></textarea>
+                        <span asp-validation-for="Description" class="validation-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-toggle-on me-1"></i>
+                            Ürün Durumu
+                        </label>
+                        <input type="hidden" asp-for="ProductStatus" value="false" />
+                        <div class="checkbox-container" onclick="toggleCheckbox()">
+                            <input type="checkbox"
+                                   class="checkbox-modern"
+                                   asp-for="ProductStatus"
+                                   id="status" />
+                            <label class="checkbox-label" for="status">
+                                Ürün aktif durumda mı?
+                            </label>
+                        </div>
+                        <span asp-validation-for="ProductStatus" class="validation-error"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-save"></i>
+                    Ürünü Güncelle
+                </button>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form submit işlemi
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function(e) {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Güncelleniyor...';
+            submitBtn.disabled = true;
+        });
+
+        // Checkbox toggle
+        window.toggleCheckbox = function() {
+            const checkbox = document.getElementById('status');
+            checkbox.checked = !checkbox.checked;
+        };
+
+        // Image preview
+        window.updateImagePreview = function(url) {
+            const preview = document.getElementById('imagePreview');
+            const img = document.getElementById('previewImg');
+
+            if (url && url.trim() !== '') {
+                img.src = url;
+                preview.style.display = 'block';
+
+                img.onerror = function() {
+                    preview.style.display = 'none';
+                };
+            } else {
+                preview.style.display = 'none';
+            }
+        };
+
+        // Sayfa yüklendiğinde mevcut image URL'si varsa preview göster
+        const currentImageUrl = document.getElementById('imageurl').value;
+        if (currentImageUrl) {
+            updateImagePreview(currentImageUrl);
+        }
+
+        // Input validasyonları
+        const inputs = document.querySelectorAll('.form-control-modern, .form-select-modern');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+        });
+
+        function validateField(field) {
+            const value = field.value.trim();
+            const fieldName = field.getAttribute('asp-for') || field.name;
+
+            // Basit validasyon
+            if (field.hasAttribute('required') && !value) {
+                field.style.borderColor = '#ef4444';
+            } else {
+                field.style.borderColor = '#10b981';
+            }
+        }
+
+        // Price input formatı
+        const priceInput = document.getElementById('price');
+        if (priceInput) {
+            priceInput.addEventListener('input', function() {
+                let value = this.value;
+                if (value && !isNaN(value)) {
+                    this.style.color = '#059669';
+                } else {
+                    this.style.color = '#374151';
+                }
+            });
+        }
+    });
+</script>

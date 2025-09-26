@@ -7,80 +7,407 @@
 
 <style>
     body {
-        background: #f4f6f9;
-        font-family: 'Segoe UI', sans-serif;
-        color: #2d2d2d;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        color: #2d3748;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
     }
 
     .page-wrapper {
-        max-width: 1100px;
-        margin: 40px auto;
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 0 20px;
     }
 
-    .card-modern {
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    .header-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 25px 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
-    .card-header-modern {
-        background: #ffffff;
-        border-bottom: 1px solid #e5e7eb;
-        font-weight: 600;
-        font-size: 1rem;
-        padding: 16px 20px;
+    .header-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
     }
 
-    .table-modern th {
-        background-color: #fafafa !important;
+    .header-title {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+
+        .header-title i {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+
+    .btn-create {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
         font-weight: 600;
-        text-transform: uppercase;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-create i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+    .card-modern {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .table-container {
+        padding: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-modern {
+        margin: 0;
+        border: none;
+    }
+
+        .table-modern thead th {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #4a5568;
+            padding: 20px 15px;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table-modern tbody td {
+            border: none;
+            padding: 18px 15px;
+            vertical-align: middle;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .table-modern tbody tr {
+            transition: all 0.3s ease;
+        }
+
+            .table-modern tbody tr:hover {
+                background: rgba(59, 130, 246, 0.05);
+                transform: scale(1.01);
+            }
+
+    .badge-id {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 45px;
+    }
+
+    .product-name-cell {
+        max-width: 200px;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .price-cell {
+        font-weight: 700;
+        color: #059669;
+        font-size: 1rem;
+    }
+
+    .badge-category {
+        background: linear-gradient(135deg, #06b6d4, #0891b2);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
         font-size: 0.8rem;
-        color: #444;
+        display: inline-block;
     }
 
-    .table-modern td {
-        vertical-align: middle;
-        font-size: 0.9rem;
+    .badge-status {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 70px;
     }
 
-    .badge {
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 500;
+    .badge-active {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+
+    .badge-inactive {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .btn-action {
-        border-radius: 6px;
-        padding: 4px 10px;
+        border: 2px solid;
+        background: transparent;
+        padding: 8px 16px;
+        border-radius: 10px;
         font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 85px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        color: #e53e3e;
+        border-color: #e53e3e;
+    }
+
+        .btn-delete:hover {
+            background: #e53e3e;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
+            text-decoration: none;
+        }
+
+    .btn-update {
+        color: #10b981;
+        border-color: #10b981;
+    }
+
+        .btn-update:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            text-decoration: none;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+            color: #3b82f6;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+    /* Tooltip for truncated text */
+    .tooltip-text {
+        position: relative;
+        cursor: help;
+    }
+
+        .tooltip-text:hover::after {
+            content: attr(data-full-text);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: normal;
+            max-width: 300px;
+            z-index: 1000;
+            word-wrap: break-word;
+        }
+
+        .tooltip-text:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+        }
+
+ 
+
+    {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-title {
+        font-size: 1.3rem;
+    }
+
+    .table-container {
+        border-radius: 15px;
+    }
+
+    .table-modern thead th,
+    .table-modern tbody td {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+
+    .btn-action {
+        min-width: 70px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .product-name-cell {
+        max-width: 120px;
+    }
+
+    }
+
+  
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .card-modern {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .header-section {
+        animation: fadeInUp 0.4s ease-out;
+    }
+
+    /* Status indicator with pulse animation */
+    .badge-active {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .badge-active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+  
+
+    {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+
     }
 </style>
 
 <div class="content">
     <div class="page-wrapper">
-        <div class="card-modern">
-            <div class="card-header-modern">
-                <span><i class="fas fa-box me-2"></i> Ürün Yönetimi</span>
-                <a href="/Product/CreateProduct/" class="btn btn-dark btn-sm fw-bold">
-                    <i class="fas fa-plus-circle me-1"></i> Yeni Ürün
+        <div class="header-section">
+            <div class="header-content">
+                <h1 class="header-title">
+                    <i class="fas fa-box"></i>
+                    Ürün Yönetimi
+                </h1>
+                <a href="/Product/CreateProduct/" class="btn-create">
+                    <i class="fas fa-plus-circle"></i>
+                    Yeni Ürün Ekle
                 </a>
             </div>
-            <div class="card-body p-4">
-                <table class="table table-modern table-hover text-center align-middle">
+        </div>
+
+        <div class="card-modern">
+            <div class="table-container">
+                <table class="table table-modern">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Ürün Adı</th>
                             <th>Fiyat</th>
                             <th>Kategori</th>
                             <th>Durum</th>
-                            <th>Sil</th>
-                            <th>Güncelle</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,38 +417,53 @@
                             {
                                 <tr>
                                     <td>
-                                        <span class="badge bg-secondary px-3 py-2">
-                                            @item.ProductID
+                                        <span class="badge-id">
+                                            #@item.ProductID
                                         </span>
                                     </td>
-                                    <td class="fw-semibold">@item.ProductName</td>
-                                    <td>@item.Price ₺</td>
+                                    <td class="product-name-cell">
+                                        <div class="text-truncate tooltip-text" data-full-text="@item.ProductName">
+                                            @item.ProductName
+                                        </div>
+                                    </td>
+                                    <td class="price-cell">
+                                        @item.Price ₺
+                                    </td>
                                     <td>
-                                        <span class="badge bg-info text-dark px-3 py-2">
+                                        <span class="badge-category">
                                             @item.CategoryName
                                         </span>
                                     </td>
                                     <td>
                                         @if (item.ProductStatus)
                                         {
-                                            <span class="badge bg-success px-3 py-2">Aktif</span>
+                                            <span class="badge-status badge-active">
+                                                <i class="fas fa-check-circle me-1"></i>
+                                                Aktif
+                                            </span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-danger px-3 py-2">Pasif</span>
+                                            <span class="badge-status badge-inactive">
+                                                <i class="fas fa-times-circle me-1"></i>
+                                                Pasif
+                                            </span>
                                         }
                                     </td>
                                     <td>
-                                        <a href="/Product/DeleteProduct/@item.ProductID"
-                                           class="btn btn-outline-danger btn-sm btn-action">
-                                            Sil
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="/Product/UpdateProduct/@item.ProductID"
-                                           class="btn btn-outline-success btn-sm btn-action">
-                                            Güncelle
-                                        </a>
+                                        <div style="display: flex; gap: 8px; justify-content: center;">
+                                            <a href="/Product/UpdateProduct/@item.ProductID"
+                                               class="btn-action btn-update">
+                                                <i class="fas fa-edit me-1"></i>
+                                                Düzenle
+                                            </a>
+                                            <a href="/Product/DeleteProduct/@item.ProductID"
+                                               class="btn-action btn-delete"
+                                               onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">
+                                                <i class="fas fa-trash me-1"></i>
+                                                Sil
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -129,9 +471,9 @@
                         else
                         {
                             <tr>
-                                <td colspan="7" class="text-muted py-4">
-                                    <i class="fas fa-inbox fa-2x d-block mb-2"></i>
-                                    Hiç ürün bulunamadı.
+                                <td colspan="6" class="empty-state">
+                                    <i class="fas fa-box-open"></i>
+                                    <p>Henüz hiç ürün eklenmemiş.</p>
                                 </td>
                             </tr>
                         }
@@ -141,3 +483,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Silme işlemi için gelişmiş onay
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const result = confirm('Bu ürünü silmek istediğinizden emin misiniz?\n\nBu işlem geri alınamaz!');
+
+                if (result) {
+                    // Loading durumu
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
+                    this.style.pointerEvents = 'none';
+
+                    // Silme işlemini gerçekleştir
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 500);
+                }
+            });
+        });
+
+        // Güncelleme butonları için loading durumu
+        const updateButtons = document.querySelectorAll('.btn-update');
+
+        updateButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+                this.style.pointerEvents = 'none';
+            });
+        });
+
+        // Tablo satırlarını sırayla göster animasyonu
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach((row, index) => {
+            row.style.animationDelay = `${index * 0.1}s`;
+            row.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        });
+    });
+</script>

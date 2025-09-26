@@ -9,5 +9,6 @@ namespace SignalR.BussinessLayer.Abstract
 {
     public interface ICategoryService: IGenericService<Category>
     {
+        public int TCategoryCount();
     }
 }
