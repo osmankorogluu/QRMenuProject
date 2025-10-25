@@ -240,6 +240,9 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("OrderDetailID");
 
                     b.HasIndex("OrderID");
@@ -351,7 +354,7 @@ namespace SignalR.DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("QRMenu.EntityLayer.Entities.Product", "Product")
-                        .WithMany("OrderDetails")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,11 +381,6 @@ namespace SignalR.DataAccessLayer.Migrations
                 });
 
             modelBuilder.Entity("QRMenu.EntityLayer.Entities.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("QRMenu.EntityLayer.Entities.Product", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
