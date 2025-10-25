@@ -78,6 +78,14 @@ namespace SignalR.BussinessLayer.Concrete
             return _productDal.ProductPriceAvg();
         }
 
-        
+        public string TProductNameByMinPrice()
+        {
+            return _productDal.ProductNameByMinPrice();
+        }
+
+        public string TProductNameByMaxPrice()
+        {
+            return _productDal.ProductNameByMaxPrice();
+        }
     }
 }

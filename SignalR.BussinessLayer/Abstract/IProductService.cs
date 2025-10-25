@@ -15,5 +15,7 @@ namespace SignalR.BussinessLayer.Abstract
         public int TProductCountByCategoryNameHamburger();
         public int TProductCountByCategoryNameDrink();
         decimal TProductPriceAvg();
+        string TProductNameByMinPrice();
+        string TProductNameByMaxPrice();
     }
 }
