@@ -29,5 +29,12 @@ namespace QRMenuAPI.Controllers
             return Ok(result);
 
         }
+        [HttpGet("LastOrderPrice")]
+        public IActionResult LastOrderPrice()
+        {
+            return Ok( _orderService.TLasOrderPrice());
+
+
+        }
     }
 }

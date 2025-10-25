@@ -38,6 +38,11 @@ namespace SignalR.BussinessLayer.Concrete
             return _orderDal.GetListAll();
         }
 
+        public decimal TLasOrderPrice()
+        {
+            return _orderDal.LasOrderPrice();
+        }
+
         public int TTotalOrderCount()
         {
             return _orderDal.TotalOrderCount(); // ✅ Dal'dan çağır

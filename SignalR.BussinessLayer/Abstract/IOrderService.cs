@@ -11,6 +11,7 @@ namespace SignalR.BussinessLayer.Abstract
     {
         public int TTotalOrderCount();
         public int TActiveOrderCount();
+        decimal TLasOrderPrice();
 
     }
 }
