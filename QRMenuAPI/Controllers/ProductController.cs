@@ -39,6 +39,12 @@ namespace QRMenuAPI.Controllers
             return Ok(_productService.TProductCountByCategoryNameDrink());
         }
 
+        [HttpGet("ProductPriceAvg")]
+        public IActionResult ProductPriceAvg()
+        {
+            return Ok(_productService.TProductPriceAvg());
+        }
+
         [HttpGet]
         public IActionResult GetProducts()
         {

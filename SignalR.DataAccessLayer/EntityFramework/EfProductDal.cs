@@ -51,5 +51,9 @@ namespace SignalR.DataAccessLayer.EntityFramework
             return _context.Products.Count(x => x.CategoryID == categoryId);
         }
 
+        public decimal ProductPriceAvg()
+        {
+            return _context.Products.Average(x => x.Price);
+        }
     }
 }
