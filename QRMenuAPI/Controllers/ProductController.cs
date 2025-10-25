@@ -21,6 +21,24 @@ namespace QRMenuAPI.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("ProductCount")]
+        public IActionResult ProductCount()
+        {
+            return Ok(_productService.TProductCount());
+        }
+
+        [HttpGet("ProductCountByHamurger")]
+        public IActionResult ProductCountByHamurger()
+        {
+            return Ok(_productService.TProductCountByCategoryNameHamburger());
+        }
+
+        [HttpGet("ProductCountByDrink")]
+        public IActionResult ProductCountByDrink()
+        {
+            return Ok(_productService.TProductCountByCategoryNameDrink());
+        }
+
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -31,7 +49,7 @@ namespace QRMenuAPI.Controllers
         [HttpGet("ProductListWithCategory")]
         public IActionResult ProductListWithCategory()
         {
-            var values = _productService.GetProductsWithCategory();
+            var values = _productService.TGetProductsWithCategory();
             var dto = _mapper.Map<List<ResultProductWithCategoryDto>>(values);
             return Ok(dto);
         }
@@ -50,17 +68,16 @@ namespace QRMenuAPI.Controllers
         {
             _productService.TAdd(new Product()
             {
-                Description   = createProductDto.Description,
-                ImageUrl      = createProductDto.ImageUrl,
-                Price         = createProductDto.Price,
-                ProductName   = createProductDto.ProductName,
+                Description = createProductDto.Description,
+                ImageUrl = createProductDto.ImageUrl,
+                Price = createProductDto.Price,
+                ProductName = createProductDto.ProductName,
                 ProductStatus = createProductDto.ProductStatus,
-                CategoryID    = createProductDto.CategoryID
+                CategoryID = createProductDto.CategoryID
             });
             return Ok("Ürün başarıyla eklendi.");
         }
 
-        // 🔴 id parametresi route'ta tanımlandı
         [HttpPut("{id:int}")]
         public IActionResult UpdateProduct(int id, UpdateProductDto updateProductDto)
         {
@@ -68,13 +85,12 @@ namespace QRMenuAPI.Controllers
             if (product == null)
                 return NotFound("Ürün bulunamadı.");
 
-            // ❌ product.ProductID set etmiyoruz
-            product.ProductName   = updateProductDto.ProductName;
-            product.Description   = updateProductDto.Description;
-            product.Price         = updateProductDto.Price;
-            product.ImageUrl      = updateProductDto.ImageUrl;
+            product.ProductName = updateProductDto.ProductName;
+            product.Description = updateProductDto.Description;
+            product.Price = updateProductDto.Price;
+            product.ImageUrl = updateProductDto.ImageUrl;
             product.ProductStatus = updateProductDto.ProductStatus;
-            product.CategoryID    = updateProductDto.CategoryId;
+            product.CategoryID = updateProductDto.CategoryId;
 
             _productService.TUpdate(product);
             return Ok("Ürün başarıyla güncellendi.");

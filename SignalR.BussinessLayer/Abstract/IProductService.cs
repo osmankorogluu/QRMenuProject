@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace SignalR.BussinessLayer.Abstract
 {
-    public interface IProductService: IGenericService<Product>
+    public interface IProductService : IGenericService<Product>
     {
-        List<Product> GetProductsWithCategory();
+        object GetProductsWithCategory();
+        List<Product> TGetProductsWithCategory();
+        int TProductCount();
+        public int TProductCountByCategoryNameHamburger();
+        public int TProductCountByCategoryNameDrink();
     }
 }

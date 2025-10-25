@@ -24,10 +24,22 @@ namespace QRMenuAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ActiveCategoryCount")]
+        public IActionResult ActiveCategoryCount()
+        {
+            return Ok(_categoryService.TActiveCategoryCount());
+        }
+
+        [HttpGet("PassiveCategoryCount")]
+        public IActionResult PassiveCategoryCount()
+        {
+            return Ok(_categoryService.TPassiveCategoryCount());
+        }
+
         [HttpGet("CategoryCount")]
         public IActionResult CategoryCount()
         {
-            return Ok(_categoryService.TCategoryCount()); // ✔️ metot olarak çağırdık
+            return Ok(_categoryService.TCategoryCount());
         }
 
         [HttpPost]
@@ -38,7 +50,6 @@ namespace QRMenuAPI.Controllers
                 Name = createCategoryDto.Name,
                 Status = createCategoryDto.Status,
             };
-
             _categoryService.TAdd(category);
             return Ok("Category was successfully created.");
         }
@@ -48,7 +59,6 @@ namespace QRMenuAPI.Controllers
         {
             var result = _categoryService.TGetByID(id);
             if (result == null) return NotFound();
-
             _categoryService.TDelete(result);
             return Ok("Category was successfully deleted.");
         }
@@ -58,10 +68,8 @@ namespace QRMenuAPI.Controllers
         {
             var category = _categoryService.TGetByID(id);
             if (category == null) return NotFound();
-
             category.Name = dto.Name;
             category.Status = dto.Status;
-
             _categoryService.TUpdate(category);
             return Ok("Category updated successfully");
         }
@@ -71,7 +79,6 @@ namespace QRMenuAPI.Controllers
         {
             var result = _categoryService.TGetByID(id);
             if (result == null) return NotFound();
-
             return Ok(result);
         }
     }

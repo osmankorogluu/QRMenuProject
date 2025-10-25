@@ -15,12 +15,12 @@ namespace SignalR.BussinessLayer.Concrete
 
         public ProductManager(IProductDal productDal)
         {
-            _productDal=productDal;
+            _productDal = productDal;
         }
 
-        public List<Product> GetProductsWithCategory()
+        public object GetProductsWithCategory()
         {
-            return _productDal.GetProductsWithCategory();
+            throw new NotImplementedException();
         }
 
         public void TAdd(Product entity)
@@ -30,12 +30,12 @@ namespace SignalR.BussinessLayer.Concrete
 
         public void TDelete(Product entity)
         {
-            _productDal.Delete(entity);    
+            _productDal.Delete(entity);
         }
 
         public Product TGetByID(int id)
         {
-            return _productDal.GetByID(id);    
+            return _productDal.GetByID(id);
         }
 
         public List<Product> TGetListAll()
@@ -46,6 +46,21 @@ namespace SignalR.BussinessLayer.Concrete
         public List<Product> TGetProductsWithCategory()
         {
             return _productDal.GetProductsWithCategory();
+        }
+
+        public int TProductCount()
+        {
+            return _productDal.ProductCount();
+        }
+
+        public int TProductCountByCategoryNameDrink()
+        {
+            return _productDal.ProductCountByCategoryNameDrink();
+        }
+
+        public int TProductCountByCategoryNameHamburger()
+        {
+            return _productDal.ProductCountByCategoryNameHamburger();
         }
 
         public void TUpdate(Product entity)
