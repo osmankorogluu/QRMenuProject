@@ -29,6 +29,7 @@ namespace QRMenu.EntityLayer.Entities
 
         public int CategoryID { get; set; }
         public Category Category { get; set; } = default!;
+        public List<OrderDetail> OrderDetails { get; set; }
 
     }
 }
