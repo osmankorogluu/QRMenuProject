@@ -1,440 +1,772 @@
-﻿@model List<QRMenuWebUI.Dtos.AboutDtos.ResultAboutDto>
-
-@{
-    ViewData["Title"] = "About Yönetimi";
+﻿@{
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/AdminLayoutController1/Index.cshtml";
 }
 
-<style>
-    body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        color: #2d3748;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-    }
-
-    .page-wrapper {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 0 20px;
-    }
-
-    .header-section {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 25px 30px;
-        margin-bottom: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-
-    .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    .header-title {
-        display: flex;
-        align-items: center;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #2d3748;
-        margin: 0;
-    }
-
-        .header-title i {
-            background: linear-gradient(135deg, #10b981, #059669);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-right: 12px;
-            font-size: 1.8rem;
-        }
-
-    .btn-create {
-        background: linear-gradient(135deg, #10b981, #059669);
-        border: none;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    }
-
-        .btn-create:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
-            color: white;
-            text-decoration: none;
-        }
-
-        .btn-create i {
-            margin-right: 8px;
-            font-size: 1.1rem;
-        }
-
-    .card-modern {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-
-    .table-container {
-        padding: 0;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table-modern {
-        margin: 0;
-        border: none;
-    }
-
-        .table-modern thead th {
-            background: linear-gradient(135deg, #f7fafc, #edf2f7);
-            border: none;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            color: #4a5568;
-            padding: 20px 15px;
-            letter-spacing: 0.5px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .table-modern tbody td {
-            border: none;
-            padding: 18px 15px;
-            vertical-align: middle;
-            font-size: 0.95rem;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-            transition: all 0.2s ease;
-        }
-
-        .table-modern tbody tr {
-            transition: all 0.3s ease;
-        }
-
-            .table-modern tbody tr:hover {
-                background: rgba(16, 185, 129, 0.05);
-                transform: scale(1.01);
-            }
-
-    .badge-id {
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 45px;
-    }
-
-    .title-cell {
-        max-width: 200px;
-        font-weight: 600;
-        color: #2d3748;
-    }
-
-    .description-cell {
-        max-width: 300px;
-        color: #4a5568;
-        line-height: 1.5;
-    }
-
-    .text-truncate {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .btn-action {
-        border: 2px solid;
-        background: transparent;
-        padding: 8px 16px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 85px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .btn-delete {
-        color: #e53e3e;
-        border-color: #e53e3e;
-    }
-
-        .btn-delete:hover {
-            background: #e53e3e;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
-            text-decoration: none;
-        }
-
-    .btn-update {
-        color: #10b981;
-        border-color: #10b981;
-    }
-
-        .btn-update:hover {
-            background: #10b981;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-            text-decoration: none;
-        }
-
-    .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: #718096;
-    }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-            color: #10b981;
-        }
-
-        .empty-state p {
-            font-size: 1.1rem;
-            margin: 0;
-        }
-
-    /* Tooltip for truncated text */
-    .tooltip-text {
-        position: relative;
-        cursor: help;
-    }
-
-        .tooltip-text:hover::after {
-            content: attr(data-full-text);
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            white-space: normal;
-            max-width: 300px;
-            z-index: 1000;
-            word-wrap: break-word;
-        }
-
-        .tooltip-text:hover::before {
-            content: '';
-            position: absolute;
-            bottom: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-        }
-
- 
-    {
-        margin: 15px auto;
-        padding: 0 10px;
-    }
-
-    .header-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .header-title {
-        font-size: 1.3rem;
-    }
-
-    .table-container {
-        border-radius: 15px;
-    }
-
-    .table-modern thead th,
-    .table-modern tbody td {
-        padding: 12px 8px;
-        font-size: 0.85rem;
-    }
-
-    .btn-action {
-        min-width: 70px;
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-
-    .title-cell,
-    .description-cell {
-        max-width: 150px;
-    }
-
-    }
-
-   
-
-    {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    }
-
-    .card-modern {
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-    .header-section {
-        animation: fadeInUp 0.4s ease-out;
-    }
-</style>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
 
 <div class="content">
-    <div class="page-wrapper">
-        <div class="header-section">
-            <div class="header-content">
-                <h1 class="header-title">
-                    <i class="fas fa-info-circle"></i>
-                    Hakkımızda İçerik Yönetimi
-                </h1>
-                <a href="/About/CreateAbout/" class="btn-create">
-                    <i class="fas fa-plus-circle"></i>
-                    Yeni İçerik Ekle
-                </a>
+    <div class="container-fluid">
+
+        <!-- Header Section -->
+        <div class="dashboard-header mb-4">
+            <div class="header-flex">
+                <div class="header-left">
+                    <h2 class="dashboard-title">Canlı İstatistikler</h2>
+                    <p class="dashboard-subtitle">Gerçek zamanlı veri takibi</p>
+                </div>
+                <div class="connection-status">
+                    <span id="connstatus" class="status-badge connecting">
+                        <span class="status-dot"></span>
+                        Bağlanıyor...
+                    </span>
+                </div>
             </div>
         </div>
 
-        <div class="card-modern">
-            <div class="table-container">
-                <table class="table table-modern">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Başlık</th>
-                            <th>Açıklama</th>
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <span class="badge-id">
-                                            #@item.AboutID
-                                        </span>
-                                    </td>
-                                    <td class="title-cell">
-                                        <div class="text-truncate tooltip-text" data-full-text="@item.title">
-                                            @item.title
-                                        </div>
-                                    </td>
-                                    <td class="description-cell">
-                                        <div class="text-truncate tooltip-text" data-full-text="@item.Description">
-                                            @item.Description
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="display: flex; gap: 8px; justify-content: center;">
-                                            <a href="/About/UpdateAbout/@item.AboutID"
-                                               class="btn-action btn-update">
-                                                <i class="fas fa-edit me-1"></i>
-                                                Düzenle
-                                            </a>
-                                            <a href="/About/DeleteAbout/@item.AboutID"
-                                               class="btn-action btn-delete"
-                                               onclick="return confirm('Bu içeriği silmek istediğinizden emin misiniz?');">
-                                                <i class="fas fa-trash me-1"></i>
-                                                Sil
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="4" class="empty-state">
-                                    <i class="fas fa-file-alt"></i>
-                                    <p>Henüz hiç içerik eklenmemiş.</p>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+        <!-- İSTATİSTİK KARTLARI -->
+        <div class="stats-grid">
+            <!-- Kategori Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-purple">
+                    <i class="la la-th-large"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Kategori Sayısı</p>
+                    <h3 class="stats-value" id="categorycount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Aktif Kategori Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-green">
+                    <i class="la la-check-square"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Aktif Kategori</p>
+                    <h3 class="stats-value" id="activecategorycount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Pasif Kategori Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-red">
+                    <i class="la la-times-circle"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Pasif Kategori</p>
+                    <h3 class="stats-value" id="passivecategorycount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Ürün Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-blue">
+                    <i class="la la-shopping-bag"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Ürün Sayısı</p>
+                    <h3 class="stats-value" id="productcount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Aktif Sipariş -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-orange">
+                    <i class="la la-rocket"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Aktif Sipariş</p>
+                    <h3 class="stats-value" id="activeordercount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Toplam Sipariş -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-green">
+                    <i class="la la-check-circle"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Toplam Sipariş</p>
+                    <h3 class="stats-value" id="totalordercount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Bugünkü Ciro -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-cyan">
+                    <i class="la la-credit-card"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Bugünkü Ciro</p>
+                    <h3 class="stats-value" id="todaytotalprice">0 ₺</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Toplam Kasa -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-indigo">
+                    <i class="la la-wallet"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Toplam Kasa</p>
+                    <h3 class="stats-value" id="totalmoneycaseamount">0 ₺</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Ortalama Ürün Fiyatı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-teal">
+                    <i class="la la-chart-line"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Ort. Ürün Fiyatı</p>
+                    <h3 class="stats-value" id="avgproductprice">0 ₺</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Masa Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-pink">
+                    <i class="la la-utensils"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Masa Sayısı</p>
+                    <h3 class="stats-value" id="menutablecount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Rezervasyon -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-violet">
+                    <i class="la la-calendar-check"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Rezervasyon</p>
+                    <h3 class="stats-value" id="bookingcount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- İndirim Sayısı -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-red">
+                    <i class="la la-tag"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">İndirim Sayısı</p>
+                    <h3 class="stats-value" id="discountcount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- Hamburger -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-amber">
+                    <i class="la la-hamburger"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">Hamburger</p>
+                    <h3 class="stats-value" id="hamburgercount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- İçecek -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-sky">
+                    <i class="la la-glass-martini"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">İçecek</p>
+                    <h3 class="stats-value" id="drinkcount">0</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- En Pahalı Ürün -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-emerald">
+                    <i class="la la-arrow-circle-up"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">En Pahalı Ürün</p>
+                    <h3 class="stats-value product-name" id="maxpricename">-</h3>
+                </div>
+                <div class="card-decoration"></div>
+            </div>
+
+            <!-- En Ucuz Ürün -->
+            <div class="stats-card">
+                <div class="icon-wrapper icon-rose">
+                    <i class="la la-arrow-circle-down"></i>
+                </div>
+                <div class="stats-info">
+                    <p class="stats-label">En Ucuz Ürün</p>
+                    <h3 class="stats-value product-name" id="minpricename">-</h3>
+                </div>
+                <div class="card-decoration"></div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Silme işlemi için gelişmiş onay
-        const deleteButtons = document.querySelectorAll('.btn-delete');
+<script type="text/javascript">
+    $(document).ready(function () {
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:44366/signalRHub")
+            .withAutomaticReconnect()
+            .build();
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                const result = confirm('Bu hakkımızda içeriğini silmek istediğinizden emin misiniz?\n\nBu işlem geri alınamaz!');
-
-                if (result) {
-                    // Loading durumu
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
-                    this.style.pointerEvents = 'none';
-
-                    // Silme işlemini gerçekleştir
-                    setTimeout(() => {
-                        window.location.href = this.href;
-                    }, 500);
-                }
-            });
+        connection.onclose(() => {
+            $("#connstatus").removeClass("connected connecting").addClass("disconnected");
+            $("#connstatus .status-dot").removeClass("dot-connected dot-connecting").addClass("dot-disconnected");
+            $("#connstatus").contents().last()[0].textContent = " Bağlantı Kesildi";
         });
 
-        // Güncelleme butonları için loading durumu
-        const updateButtons = document.querySelectorAll('.btn-update');
+        connection.onreconnecting(() => {
+            $("#connstatus").removeClass("connected disconnected").addClass("connecting");
+            $("#connstatus .status-dot").removeClass("dot-connected dot-disconnected").addClass("dot-connecting");
+            $("#connstatus").contents().last()[0].textContent = " Yeniden Bağlanıyor...";
+        });
 
-        updateButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
-                this.style.pointerEvents = 'none';
-            });
+        connection.onreconnected(() => {
+            $("#connstatus").removeClass("connecting disconnected").addClass("connected");
+            $("#connstatus .status-dot").removeClass("dot-connecting dot-disconnected").addClass("dot-connected");
+            $("#connstatus").contents().last()[0].textContent = " Bağlı";
+        });
+
+        // Alıcılar - Animasyonlu güncelleme
+        function updateValue(elementId, value) {
+            const $element = $("#" + elementId);
+            $element.addClass("value-update");
+            $element.text(value);
+            setTimeout(() => $element.removeClass("value-update"), 600);
+        }
+
+        connection.on("ReceiveCategoryCount", (v) => updateValue("categorycount", v));
+        connection.on("ReceiveActiveCategoryCount", (v) => updateValue("activecategorycount", v));
+        connection.on("ReceivePassiveCategoryCount", (v) => updateValue("passivecategorycount", v));
+        connection.on("ReceiveProductCount", (v) => updateValue("productcount", v));
+        connection.on("ReceiveActiveOrderCount", (v) => updateValue("activeordercount", v));
+        connection.on("ReceiveTotalOrderCount", (v) => updateValue("totalordercount", v));
+        connection.on("ReceiveTodayTotalPrice", (v) => updateValue("todaytotalprice", v));
+        connection.on("ReceiveTotalMoneyCaseAmount", (v) => updateValue("totalmoneycaseamount", v));
+        connection.on("ReceiveMenuTableCount", (v) => updateValue("menutablecount", v));
+        connection.on("ReceiveBookingCount", (v) => updateValue("bookingcount", v));
+        connection.on("ReceiveDiscountCount", (v) => updateValue("discountcount", v));
+        connection.on("ReceiveAvgProductPrice", (v) => updateValue("avgproductprice", v));
+        connection.on("ReceiveProductNameByMaxPrice", (v) => updateValue("maxpricename", v));
+        connection.on("ReceiveProductNameByMinPrice", (v) => updateValue("minpricename", v));
+        connection.on("ReceiveProductCountByCategoryNameHamburger", (v) => updateValue("hamburgercount", v));
+        connection.on("ReceiveProductCountByCategoryNameDrink", (v) => updateValue("drinkcount", v));
+
+        // Başlat
+        connection.start().then(() => {
+            $("#connstatus").removeClass("connecting").addClass("connected");
+            $("#connstatus .status-dot").removeClass("dot-connecting").addClass("dot-connected");
+            $("#connstatus").contents().last()[0].textContent = " Bağlı";
+
+            setInterval(() => {
+                connection.invoke("SendCategoryCount");
+                connection.invoke("ActiveCategoryCount");
+                connection.invoke("PassiveCategoryCount");
+                connection.invoke("SendProductCount");
+                connection.invoke("SendActiveOrderCount");
+                connection.invoke("SendTotalOrderCount");
+                connection.invoke("SendTodayTotalPrice");
+                connection.invoke("SendTotalMoneyCaseAmount");
+                connection.invoke("SendMenuTableCount");
+                connection.invoke("SendBookingCount");
+                connection.invoke("SendDiscountCount");
+                connection.invoke("SendAvgProductPrice");
+                connection.invoke("SendProductNameByMaxPrice");
+                connection.invoke("SendProductNameByMinPrice");
+                connection.invoke("SendProductCountByCategoryNameHamburger");
+                connection.invoke("SendProductCountByCategoryNameDrink");
+            }, 2000);
+        }).catch(err => {
+            console.error("Bağlantı hatası:", err);
+            $("#connstatus").removeClass("connecting connected").addClass("disconnected");
+            $("#connstatus .status-dot").removeClass("dot-connecting dot-connected").addClass("dot-disconnected");
+            $("#connstatus").contents().last()[0].textContent = " Bağlantı Hatası";
         });
     });
 </script>
+
+<style>
+    /* Modern Design System - 2025 */
+    :root {
+        --bg-page: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --bg-card: rgba(255, 255, 255, 0.95);
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Color Palette */
+    .icon-purple {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .icon-blue {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .icon-orange {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .icon-green {
+        background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    }
+
+    .icon-cyan {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .icon-indigo {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+
+    .icon-teal {
+        background: linear-gradient(135deg, #37ecba 0%, #72afd3 100%);
+    }
+
+    .icon-pink {
+        background: linear-gradient(135deg, #ff6a88 0%, #ff99ac 100%);
+    }
+
+    .icon-violet {
+        background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    }
+
+    .icon-red {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .icon-amber {
+        background: linear-gradient(135deg, #ffa751 0%, #ffe259 100%);
+    }
+
+    .icon-sky {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .icon-emerald {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .icon-rose {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    /* Global Styles */
+    body {
+        background: var(--bg-page);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        min-height: 100vh;
+    }
+
+    .content {
+        background: transparent;
+        padding: 2rem 1.5rem;
+    }
+
+    .container-fluid {
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+        margin-bottom: 2rem;
+    }
+
+    .header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-left {
+        flex: 1;
+    }
+
+    .dashboard-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: white;
+        margin: 0 0 0.25rem 0;
+        letter-spacing: -0.02em;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    /* Connection Status */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .status-badge.connected {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot-connected {
+        background: #22c55e;
+        box-shadow: 0 0 8px #22c55e;
+    }
+
+    .status-badge.connecting {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot-connecting {
+        background: #f59e0b;
+        box-shadow: 0 0 8px #f59e0b;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .status-badge.disconnected {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot-disconnected {
+        background: #ef4444;
+        box-shadow: 0 0 8px #ef4444;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Stats Card */
+    .stats-card {
+        position: relative;
+        padding: 1.75rem;
+        border-radius: 20px;
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-card);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+        .stats-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(40%, -40%);
+            transition: all 0.5s ease;
+        }
+
+        .stats-card:hover::before {
+            transform: translate(30%, -30%) scale(1.2);
+        }
+
+    /* Card Decoration */
+    .card-decoration {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+        border-radius: 100% 0 0 0;
+    }
+
+    /* Icon Wrapper */
+    .icon-wrapper {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+        .icon-wrapper i {
+            font-size: 2rem;
+            color: white;
+        }
+
+    /* Stats Info */
+    .stats-info {
+        position: relative;
+        z-index: 1;
+    }
+
+    .stats-label {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin: 0 0 0.5rem 0;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .stats-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin: 0;
+        line-height: 1.2;
+        transition: all 0.3s ease;
+    }
+
+        .stats-value.product-name {
+            font-size: 1.125rem;
+            word-break: break-word;
+            font-weight: 700;
+        }
+
+    /* Animations */
+    @@keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+    }
+
+    @@keyframes valueUpdate {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.15);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .value-update {
+        animation: valueUpdate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stats-card {
+        animation: fadeIn 0.5s ease-out backwards;
+    }
+
+        .stats-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .stats-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .stats-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .stats-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .stats-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .stats-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .stats-card:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .stats-card:nth-child(8) {
+            animation-delay: 0.4s;
+        }
+
+        .stats-card:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        .stats-card:nth-child(10) {
+            animation-delay: 0.5s;
+        }
+
+        .stats-card:nth-child(11) {
+            animation-delay: 0.55s;
+        }
+
+        .stats-card:nth-child(12) {
+            animation-delay: 0.6s;
+        }
+
+        .stats-card:nth-child(13) {
+            animation-delay: 0.65s;
+        }
+
+        .stats-card:nth-child(14) {
+            animation-delay: 0.7s;
+        }
+
+        .stats-card:nth-child(15) {
+            animation-delay: 0.75s;
+        }
+
+        .stats-card:nth-child(16) {
+            animation-delay: 0.8s;
+        }
+
+    /* Responsive Design */
+    @@media (max-width: 1200px) {
+        .stats-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .content {
+            padding: 1.5rem 1rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-flex {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 1.75rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .stats-card {
+            padding: 1.5rem;
+        }
+
+        .icon-wrapper {
+            width: 56px;
+            height: 56px;
+        }
+
+            .icon-wrapper i {
+                font-size: 1.75rem;
+            }
+
+        .stats-value {
+            font-size: 1.625rem;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+
+        .stats-value {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+</style>

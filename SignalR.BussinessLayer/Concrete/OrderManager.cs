@@ -1,26 +1,42 @@
 ﻿using QRMenu.EntityLayer.Entities;
 using SignalR.BussinessLayer.Abstract;
 using SignalR.DataAccessLayer.Abstract;
+using System.Collections.Generic;
 
 namespace SignalR.BussinessLayer.Concrete
 {
     public class OrderManager : IOrderService
     {
-        private readonly IOrderDal _orderDal; // ✅ DOĞRU: Dal katmanını kullan
+        private readonly IOrderDal _orderDal;
 
-        public OrderManager(IOrderDal orderDal) // ✅ DOĞRU
+        public OrderManager(IOrderDal orderDal)
         {
             _orderDal = orderDal;
         }
 
         public int TActiveOrderCount()
         {
-           return _orderDal.ActiveOrderCount(); 
+            return _orderDal.ActiveOrderCount();
+        }
+
+        public decimal TLastOrderPrice()
+        {
+            return _orderDal.LastOrderPrice();
+        }
+
+        public decimal TTodayTotalPrice()
+        {
+            return _orderDal.TodayTotalPrice();
+        }
+
+        public int TTotalOrderCount()
+        {
+            return _orderDal.TotalOrderCount();
         }
 
         public void TAdd(Order entity)
         {
-            throw new NotImplementedException();
+            _orderDal.Add(entity);
         }
 
         public void TDelete(Order entity)
@@ -38,24 +54,14 @@ namespace SignalR.BussinessLayer.Concrete
             return _orderDal.GetListAll();
         }
 
-        public decimal TLasOrderPrice()
-        {
-            return _orderDal.LasOrderPrice();
-        }
-
-        public decimal TTodayTotalPrice()
-        {
-            return _orderDal.TodayTotalPrice();
-        }
-
-        public int TTotalOrderCount()
-        {
-            return _orderDal.TotalOrderCount(); // ✅ Dal'dan çağır
-        }
-
         public void TUpdate(Order entity)
         {
             _orderDal.Update(entity);
+        }
+
+        public decimal TLasOrderPrice()
+        {
+            throw new NotImplementedException();
         }
     }
 }

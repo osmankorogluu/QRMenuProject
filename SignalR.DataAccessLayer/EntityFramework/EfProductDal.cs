@@ -6,8 +6,6 @@ using SignalR.DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalR.DataAccessLayer.EntityFramework
 {
@@ -27,7 +25,6 @@ namespace SignalR.DataAccessLayer.EntityFramework
 
         public int ProductCount()
         {
-            // HATA: Yeni context oluşturmayın, mevcut context'i kullanın
             return _context.Products.Count();
         }
 
@@ -37,6 +34,9 @@ namespace SignalR.DataAccessLayer.EntityFramework
                 .Where(y => y.Name == "İçecek")
                 .Select(z => z.CategoryID)
                 .FirstOrDefault();
+
+            if (categoryId == 0)
+                return 0;
 
             return _context.Products.Count(x => x.CategoryID == categoryId);
         }
@@ -48,34 +48,133 @@ namespace SignalR.DataAccessLayer.EntityFramework
                 .Select(z => z.CategoryID)
                 .FirstOrDefault();
 
+            if (categoryId == 0)
+                return 0;
+
             return _context.Products.Count(x => x.CategoryID == categoryId);
         }
 
+        // ✅ En Pahalı Ürün İsmi
         public string ProductNameByMaxPrice()
         {
-            var maxPrice = _context.Products.Max(y => y.Price);
+            if (!_context.Products.Any())
+                return "Ürün Yok"; // Veya string.Empty, null yerine
+
+            var maxPrice = _context.Products.Max(y => (decimal?)y.Price) ?? 0;
 
             return _context.Products
                 .Where(x => x.Price == maxPrice)
                 .Select(z => z.ProductName)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? "Bilinmiyor";
         }
 
+        // ✅ En Ucuz Ürün İsmi
         public string ProductNameByMinPrice()
         {
-            var minPrice = _context.Products.Min(y => y.Price);
+            if (!_context.Products.Any())
+                return "Ürün Yok";
+
+            var minPrice = _context.Products.Min(y => (decimal?)y.Price) ?? 0;
 
             return _context.Products
                 .Where(x => x.Price == minPrice)
                 .Select(z => z.ProductName)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? "Bilinmiyor";
         }
 
-
-
+        // ✅ Ortalama Ürün Fiyatı
         public decimal ProductPriceAvg()
         {
-            return _context.Products.Average(x => x.Price);
+            if (!_context.Products.Any())
+                return 0;
+
+            return _context.Products.Average(x => (decimal?)x.Price) ?? 0;
+        }
+
+        // ✅ Hamburger Kategorisi Ortalama Fiyatı
+        public decimal ProductPriceByCategoryNameAvgHamburger()
+        {
+            var categoryId = _context.Categories
+                .Where(y => y.Name == "Hamburger")
+                .Select(z => z.CategoryID)
+                .FirstOrDefault();
+
+            if (categoryId == 0)
+                return 0;
+
+            var products = _context.Products.Where(x => x.CategoryID == categoryId);
+
+            if (!products.Any())
+                return 0;
+
+            return products.Average(x => (decimal?)x.Price) ?? 0;
+        }
+
+        // ✅ Hamburger - En Pahalı Ürün
+        public string ProductNameByMaxPriceByCategoryNameHamburger()
+        {
+            var categoryId = _context.Categories
+                .Where(y => y.Name == "Hamburger")
+                .Select(z => z.CategoryID)
+                .FirstOrDefault();
+
+            if (categoryId == 0)
+                return "Kategori Bulunamadı";
+
+            var products = _context.Products.Where(x => x.CategoryID == categoryId);
+
+            if (!products.Any())
+                return "Ürün Yok";
+
+            var maxPrice = products.Max(y => (decimal?)y.Price) ?? 0;
+
+            return products
+                .Where(x => x.Price == maxPrice)
+                .Select(z => z.ProductName)
+                .FirstOrDefault() ?? "Bilinmiyor";
+        }
+
+        // ✅ Hamburger - En Ucuz Ürün
+        public string ProductNameByMinPriceByCategoryNameHamburger()
+        {
+            var categoryId = _context.Categories
+                .Where(y => y.Name == "Hamburger")
+                .Select(z => z.CategoryID)
+                .FirstOrDefault();
+
+            if (categoryId == 0)
+                return "Kategori Bulunamadı";
+
+            var products = _context.Products.Where(x => x.CategoryID == categoryId);
+
+            if (!products.Any())
+                return "Ürün Yok";
+
+            var minPrice = products.Min(y => (decimal?)y.Price) ?? 0;
+
+            return products
+                .Where(x => x.Price == minPrice)
+                .Select(z => z.ProductName)
+                .FirstOrDefault() ?? "Bilinmiyor";
+        }
+
+        // ✅ İçecek Kategorisi Ortalama Fiyatı
+        public decimal ProductPriceAvgByCategoryNameDrink()
+        {
+            var categoryId = _context.Categories
+                .Where(y => y.Name == "İçecek")
+                .Select(z => z.CategoryID)
+                .FirstOrDefault();
+
+            if (categoryId == 0)
+                return 0;
+
+            var products = _context.Products.Where(x => x.CategoryID == categoryId);
+
+            if (!products.Any())
+                return 0;
+
+            return products.Average(x => (decimal?)x.Price) ?? 0;
         }
     }
 }

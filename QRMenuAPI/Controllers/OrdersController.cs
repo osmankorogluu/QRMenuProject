@@ -32,7 +32,7 @@ namespace QRMenuAPI.Controllers
         [HttpGet("LastOrderPrice")]
         public IActionResult LastOrderPrice()
         {
-            return Ok( _orderService.TLasOrderPrice());
+            return Ok( _orderService.TLastOrderPrice());
 
         }
         [HttpGet("TodayTotalPrice")]

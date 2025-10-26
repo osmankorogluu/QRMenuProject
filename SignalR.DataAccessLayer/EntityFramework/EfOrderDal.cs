@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QRMenu.EntityLayer.Entities;
+﻿using QRMenu.EntityLayer.Entities;
 using SignalR.DataAccessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.DataAccessLayer.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SignalR.DataAccessLayer.EntityFramework
 {
@@ -12,30 +14,37 @@ namespace SignalR.DataAccessLayer.EntityFramework
 
         public EfOrderDal(SignalRContext context) : base(context)
         {
-            _context = context; // ✅ Bu satır EKSİKTİ!
+            _context = context;
         }
 
+        // Aktif Sipariş Sayısı
         public int ActiveOrderCount()
         {
-            using var context = new SignalRContext();
-            return context.Orders.Where(o => o.Desription == "Müşteri Masada").Count();
+            return _context.Orders.Where(x => x.Desription == "Müşteri Masada").Count();
         }
 
         public decimal LasOrderPrice()
         {
-            return _context.Orders
-        .OrderByDescending(x => x.OrderID)
-        .Take(1)
-        .Select(y => y.TotalPrice)
-        .FirstOrDefault();
+            throw new NotImplementedException();
         }
 
+        // Son Sipariş Fiyatı
+        public decimal LastOrderPrice()
+        {
+            return _context.Orders.OrderByDescending(x => x.OrderID).Select(y => y.TotalPrice).FirstOrDefault();
+        }
+
+        // Bugünkü Toplam Kazanç
         public decimal TodayTotalPrice()
         {
-           using var context = new SignalRContext();
-            return context.Orders.Where(x => x.Date == DateTime.Parse(DateTime.Now.ToShortDateString())).Sum(y => y.TotalPrice);
+            var today = DateTime.Today;
+
+            return _context.Orders
+                .Where(o => o.Date.Date == today)
+                .Sum(o => (decimal?)o.TotalPrice) ?? 0;
         }
 
+        // Toplam Sipariş Sayısı
         public int TotalOrderCount()
         {
             return _context.Orders.Count();
