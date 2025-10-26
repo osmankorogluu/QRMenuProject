@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SignalR.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class m : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,6 +108,19 @@ namespace SignalR.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MoneyCases",
+                columns: table => new
+                {
+                    MoneyCaseID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MoneyCases", x => x.MoneyCaseID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -116,6 +129,7 @@ namespace SignalR.DataAccessLayer.Migrations
                     TableNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Desription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "Date", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -241,6 +255,9 @@ namespace SignalR.DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Features");
+
+            migrationBuilder.DropTable(
+                name: "MoneyCases");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

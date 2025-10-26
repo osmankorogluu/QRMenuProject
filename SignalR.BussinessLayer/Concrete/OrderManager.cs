@@ -43,6 +43,11 @@ namespace SignalR.BussinessLayer.Concrete
             return _orderDal.LasOrderPrice();
         }
 
+        public decimal TTodayTotalPrice()
+        {
+            return _orderDal.TodayTotalPrice();
+        }
+
         public int TTotalOrderCount()
         {
             return _orderDal.TotalOrderCount(); // ✅ Dal'dan çağır

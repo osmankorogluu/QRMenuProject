@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace QRMenu.EntityLayer.Entities
         public string TableNumber { get; set; }
         public string Desription { get; set; }
         public DateTime Date { get; set; }
+
+        [Column(TypeName = "Date")]
+        public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }
