@@ -29,48 +29,44 @@ builder.Services.AddSignalR();
 
 // ------------------- DbContext -------------------
 builder.Services.AddDbContext<SignalRContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("SignalR.DataAccessLayer") // ✅ EKLENDİ
+    )
+);
 
 // ------------------- AutoMapper -------------------
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// ------------------- Dependency Injection -------------------
-builder.Services.AddScoped<IAboutService, AboutManager>();
+// ------------------- Dependency Injection - DAL ÖNCE -------------------
 builder.Services.AddScoped<IAboutDal, EfAboutDal>();
-
-builder.Services.AddScoped<IBookingService, BookingManager>();
 builder.Services.AddScoped<IBookingDal, EfBookingDal>();
-
-builder.Services.AddScoped<ICategoryService, CategoryManager>();
 builder.Services.AddScoped<ICategoryDal, EfCategoryDal>();
-
-builder.Services.AddScoped<IContactService, ContactManager>();
 builder.Services.AddScoped<IContactDal, EfContactDal>();
-
-builder.Services.AddScoped<IDiscountService, DiscountManager>();
 builder.Services.AddScoped<IDiscountDal, EfDiscountDal>();
-
-builder.Services.AddScoped<IFeatureService, FeatureManager>();
 builder.Services.AddScoped<IFeatureDal, EfFeatureDal>();
-
-builder.Services.AddScoped<IProductService, ProductManager>();
 builder.Services.AddScoped<IProductDal, EfProductDal>();
-
-builder.Services.AddScoped<ISocialMediaService, SocialMediaManager>();
 builder.Services.AddScoped<ISocialMediaDal, EfSocialMediaDal>();
-
-builder.Services.AddScoped<ITestoimonialService, TestimonialManager>();
 builder.Services.AddScoped<ITestimonialDal, EfTestimonialDal>();
-
-builder.Services.AddScoped<IOrderDetailService, OrderDetailManager>();
 builder.Services.AddScoped<IOrderDetailDal, EfOrderDetailDal>();
-
-builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IOrderDal, EfOrderDal>();
-
-builder.Services.AddScoped<IMoneyCaseService, MoneyCaseManager>();
 builder.Services.AddScoped<IMoneyCaseDal, EfMoneyCaseDal>();
+builder.Services.AddScoped<IMenuTableDal, EfMenuTableDal>();
 
+// ------------------- Dependency Injection - SERVICES SONRA -------------------
+builder.Services.AddScoped<IAboutService, AboutManager>();
+builder.Services.AddScoped<IBookingService, BookingManager>();
+builder.Services.AddScoped<ICategoryService, CategoryManager>();
+builder.Services.AddScoped<IContactService, ContactManager>();
+builder.Services.AddScoped<IDiscountService, DiscountManager>();
+builder.Services.AddScoped<IFeatureService, FeatureManager>();
+builder.Services.AddScoped<IProductService, ProductManager>();
+builder.Services.AddScoped<ISocialMediaService, SocialMediaManager>();
+builder.Services.AddScoped<ITestoimonialService, TestimonialManager>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailManager>();
+builder.Services.AddScoped<IOrderService, OrderManager>();
+builder.Services.AddScoped<IMoneyCaseService, MoneyCaseManager>();
+builder.Services.AddScoped<IMenuTableService, MenuTableManager>();
 
 // ------------------- Controllers & Swagger -------------------
 builder.Services.AddControllers();
@@ -90,7 +86,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage(); // ✔️ Hataları detaylı görmek için
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -102,7 +98,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
 app.MapHub<SignalRhub>("/signalRHub");
 

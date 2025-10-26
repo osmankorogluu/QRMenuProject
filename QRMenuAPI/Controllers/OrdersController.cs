@@ -35,6 +35,7 @@ namespace QRMenuAPI.Controllers
             return Ok( _orderService.TLasOrderPrice());
 
         }
+        [HttpGet("TodayTotalPrice")]
         public IActionResult TodayTotalPrice()
         {
             return Ok( _orderService.TTodayTotalPrice());

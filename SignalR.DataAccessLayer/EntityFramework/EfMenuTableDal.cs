@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace SignalR.DataAccessLayer.EntityFramework
 {
-    public class EfMoneyCaseDal : GenericRepository<MoneyCase>, IMoneyCaseDal
+    public class EfMenuTableDal : GenericRepository<MenuTable>, IMenuTableDal
     {
         private readonly SignalRContext _context;
 
-        public EfMoneyCaseDal(SignalRContext context) : base(context)
+        public EfMenuTableDal(SignalRContext context) : base(context)
         {
             _context = context;
         }
 
-        public decimal TotalMoneyCaseAmount()
+        public int MenuTableCount()
         {
-            return _context.MoneyCases.Select(x => x.TotalAmount).FirstOrDefault(); // ✅ Injected context kullan
+            return _context.MenuTables.Count(); // ✅ Injected context kullan
         }
     }
 }
