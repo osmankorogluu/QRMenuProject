@@ -2,7 +2,7 @@
 
 namespace QRMenuWebUI.Controllers
 {
-    public class AdminLayoutController1 : Controller
+    public class AdminLayoutController : Controller
     {
         public IActionResult Index()
         {
