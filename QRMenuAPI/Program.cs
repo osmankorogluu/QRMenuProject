@@ -68,6 +68,9 @@ builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IMoneyCaseService, MoneyCaseManager>();
 builder.Services.AddScoped<IMenuTableService, MenuTableManager>();
 
+builder.Services.AddScoped<ISliderDal, EfSliderDal>();
+builder.Services.AddScoped<ISliderService, SliderManager>();
+
 // ------------------- Controllers & Swagger -------------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
